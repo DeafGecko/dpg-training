@@ -1,0 +1,26 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit",
+    "source.sortMembers": "explicit"
+  },
+  "cSpell.words": [
+    "annouced",
+    "colorblack",
+    "darkmode",
+    "deafpathway",
+    "fonts",
+    "highcontrast",
+    "nativewind",
+    "PATHING",
+    "Pressable",
+    "sacfrices",
+    "sacifices",
+    "Swipeable",
+    "webp",
+    "worklets",
+    "xerexs",
+    "opsz",
+    "wght"
+  ]
+}
