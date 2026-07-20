@@ -13,9 +13,10 @@
         "book-bible": "Matthew",
         "ref": "7:24-29",
         "story_icon.1": "40.007.024-029.png",
-        "exegesis_slides": "two_houses_exe_01.png, two_houses_exe_02.png, two_houses_exe_03.png, two_houses_exe_04.mp4, two_houses_exe_05.mp4, two_houses_exe_06.mp4, two_houses_exe_07.png, two_houses_exe_08.png, two_houses_exe_09.mp4",
-        "lexicon-color": "lex_matthew_7.24-29.pdf",
-        "sign_roots_videos": "sr_01.mp4, sr_02.mp4, sr_03.mp4"
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
+        "sign_roots_videos": null
     },
     {
         "access-keys": "July-26\u201d",
@@ -31,9 +32,10 @@
         "book-bible": "Matthew",
         "ref": "14:13-21",
         "story_icon.1": "40.014.013-021.png",
-        "exegesis_slides": "5000_fed_exe_01.png, 5000_fed_exe_02.png, 5000_fed_exe_03.mp4, 5000_fed_exe_04.mp4, 5000_fed_exe_05.png, 5000_fed_exe_06.mp4",
-        "lexicon-color": "lex_matthew_14.13-21.pdf",
-        "sign_roots_videos": "sr_01.mp4, sr_02.mp4, sr_03.mp4, sr_04.mp4"
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
+        "sign_roots_videos": null
     },
     {
         "access-keys": "July-26\u201d",
@@ -49,8 +51,9 @@
         "book-bible": "John",
         "ref": "10:11-18",
         "story_icon.1": "43.010.011-018.png",
-        "exegesis_slides": "shepherd_wolf_exe_01.png",
-        "lexicon-color": "lex_john_10.11-18.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -67,8 +70,9 @@
         "book-bible": "John",
         "ref": "11:38-45",
         "story_icon.1": "43.011.038.045.png",
-        "exegesis_slides": "lazarus_exe_01.png",
-        "lexicon-color": "lex_john_11.38-45.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -85,8 +89,9 @@
         "book-bible": "John",
         "ref": "14:1-6",
         "story_icon.1": "43.015.001-008.png",
-        "exegesis_slides": "only_way_exe_01.png, only_way_exe_02.png",
-        "lexicon-color": "lex_john_14.1-6.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -103,8 +108,9 @@
         "book-bible": "John",
         "ref": "15:1-8",
         "story_icon.1": "43.015.001-008.png",
-        "exegesis_slides": "true_vine_exe_01.png",
-        "lexicon-color": "lex_john_15:1-8.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -121,8 +127,9 @@
         "book-bible": "Matthew",
         "ref": "3:13-17",
         "story_icon.1": "40.003.013-017.png",
-        "exegesis_slides": "jesus_baptist_exe_01.png",
-        "lexicon-color": "lex_matthew_3.13-17.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -139,8 +146,9 @@
         "book-bible": "Matthew",
         "ref": "4:1-11",
         "story_icon.1": "40.004.001-011.png",
-        "exegesis_slides": "satan_3x_exe_01.png",
-        "lexicon-color": "lex_matthew_4.1-11.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -157,8 +165,9 @@
         "book-bible": "Acts",
         "ref": "4:32-37",
         "story_icon.1": "44.004.032-037.png",
-        "exegesis_slides": "sacifices_exe_01.png, sacifices_exe_02.png",
-        "lexicon-color": "lex_acts_4.32-37.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -175,8 +184,9 @@
         "book-bible": "Matthew",
         "ref": "26:26-29",
         "story_icon.1": "40.026.026-029.png",
-        "exegesis_slides": "last_meal_exe_01.png",
-        "lexicon-color": "lex_matthew_26.26-29.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -193,47 +203,12 @@
         "book-bible": "Luke",
         "ref": "11:1-4",
         "story_icon.1": "42.011.001-004.png",
-        "exegesis_slides": "jesus_pray_exe_01.png",
-        "lexicon-color": "lex_luke_11:1-4.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
-    {
-        "access-keys": "July-26\u201d, \u201cPHIL-26\u201d",
-        "theme-sets": null,
-        "theme_id": "T-03",
-        "topical_name": "Mission Foundation Stories",
-        "topical_image": "555-mission.png",
-        "story_icon_folder": "story_icons/mission_555",
-        "stories": null,
-        "story_id": 1,
-        "story_icon": "40.028.016-020.png",
-        "story_title": "Go Make Disciple Everywhere",
-        "book-bible": "Matthew",
-        "ref": "28:16-20",
-        "story_icon.1": "40.028.016-020.png",
-        "exegesis_slides": "go_disciple_exe_01.png",
-        "lexicon-color": "lex_matthew_28.16-20.pdf",
-        "sign_roots_videos": null
-    },
-    {
-        "access-keys": "July-26\u201d, \u201cPHIL-26\u201d",
-        "theme-sets": null,
-        "theme_id": "T-03",
-        "topical_name": "Mission Foundation Stories",
-        "topical_image": "555-mission.png",
-        "story_icon_folder": "story_icons/mission_555",
-        "stories": null,
-        "story_id": 2,
-        "story_icon": "26.033.001-009.png",
-        "story_title": "A Watchman must a warn",
-        "book-bible": "Ezekiel",
-        "ref": "33:1-9",
-        "story_icon.1": "26.033.001-009.png",
-        "exegesis_slides": "watchman_exe_01.png, watchman_exe_02.png, watchman_exe_03.png, watchman_exe_04.mp4, watchman_exe_05.mp4, watchman_exe_06.mp4, watchman_exe_07.png, watchman_exe_08.png, watchman_exe_09.mp4",
-        "lexicon-color": "lex_ezekiel_33.1-9.pdf",
-        "sign_roots_videos": "sr_01.mp4, sr_02.mp4"
-    },
-    {
+        {
         "access-keys": "July-26\u201d, \u201cPHIL-26\u201d",
         "theme-sets": null,
         "theme_id": "T-03",
@@ -247,27 +222,10 @@
         "book-bible": "Matthew",
         "ref": "5:13-16",
         "story_icon.1": "40.005.013-016.png",
-        "exegesis_slides": "salt_light_exe_01.png",
-        "lexicon-color": "lex_matthew_5.13-16.pdf",
-        "sign_roots_videos": null
-    },
-    {
-        "access-keys": "July-26\u201d, \u201cPHIL-26\u201d",
-        "theme-sets": null,
-        "theme_id": "T-03",
-        "topical_name": "Mission Foundation Stories",
-        "topical_image": "555-mission.png",
-        "story_icon_folder": "story_icons/mission_555",
-        "stories": null,
-        "story_id": 4,
-        "story_icon": "42.009.001-006.png",
-        "story_title": "12 Sent Out",
-        "book-bible": "Luke",
-        "ref": "9:1-6",
-        "story_icon.1": "42.009.001-006.png",
-        "exegesis_slides": "12_send_exe_01.png",
-        "lexicon-color": "lex_luke_9.1-6.pdf",
-        "sign_roots_videos": null
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": "salt_light_storyboard.mp4",
+        "sign_roots_videos": "salt_light_sr_01.mp4, salt_light_sr_02.mp4, salt_light_sr_03.mp4"
     },
     {
         "access-keys": "July-26\u201d, \u201cPHIL-26\u201d",
@@ -283,9 +241,67 @@
         "book-bible": "Matthew",
         "ref": "25:14-30",
         "story_icon.1": "40.025.014-030.png",
-        "exegesis_slides": "521_talents_exe_01.png",
-        "lexicon-color": "lex_matthew_25.14-30.pdf",
-        "sign_roots_videos": null
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": "5-2-1_talents_storyboard.mp4",
+        "sign_roots_videos": "5-2-1_talents_sr_01.mp4, 5-2-1_talents_sr_02.mp4 "
+    },
+    {
+        "access-keys": "July-26\u201d, \u201cPHIL-26\u201d",
+        "theme-sets": null,
+        "theme_id": "T-03",
+        "topical_name": "Mission Foundation Stories",
+        "topical_image": "555-mission.png",
+        "story_icon_folder": "story_icons/mission_555",
+        "stories": null,
+        "story_id": 2,
+        "story_icon": "26.033.001-009.png",
+        "story_title": "A Watchman must a warn",
+        "book-bible": "Ezekiel",
+        "ref": "33:1-9",
+        "story_icon.1": "26.033.001-009.png",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": "watchman_storyboard.mp4",
+        "sign_roots_videos": "watchman_sr_01.mp4"
+    },
+    {
+        "access-keys": "July-26\u201d, \u201cPHIL-26\u201d",
+        "theme-sets": null,
+        "theme_id": "T-03",
+        "topical_name": "Mission Foundation Stories",
+        "topical_image": "555-mission.png",
+        "story_icon_folder": "story_icons/mission_555",
+        "stories": null,
+        "story_id": 4,
+        "story_icon": "42.009.001-006.png",
+        "story_title": "12 Sent Out",
+        "book-bible": "Luke",
+        "ref": "9:1-6",
+        "story_icon.1": "42.009.001-006.png",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": "12_send_out_storyboard.mp4",
+        "sign_roots_videos": "12_send_out_sr_01.mp4"
+    },
+    {
+        "access-keys": "July-26\u201d, \u201cPHIL-26\u201d",
+        "theme-sets": null,
+        "theme_id": "T-03",
+        "topical_name": "Mission Foundation Stories",
+        "topical_image": "555-mission.png",
+        "story_icon_folder": "story_icons/mission_555",
+        "stories": null,
+        "story_id": 1,
+        "story_icon": "40.028.016-020.png",
+        "story_title": "Go Make Disciple Everywhere",
+        "book-bible": "Matthew",
+        "ref": "28:16-20",
+        "story_icon.1": "40.028.016-020.png",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": "go_make_disciple_storyboard.mp4",
+        "sign_roots_videos": "go_make_disciple_sr_01.mp4, go_make_disciple_sr_02.mp4"
     },
     {
         "access-keys": "July-26\u201d",
@@ -301,8 +317,9 @@
         "book-bible": "Esther",
         "ref": "1:1-6",
         "story_icon.1": "17.001.001-006.png",
-        "exegesis_slides": "king_xerexs_exe_01.png, king_xerexs.exe_02.png",
-        "lexicon-color": "lex_esther_1.1-9.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": "king_pride_storyboard.mp4",
         "sign_roots_videos": null
     },
     {
@@ -319,8 +336,9 @@
         "book-bible": "Esther",
         "ref": "1:10-12",
         "story_icon.1": null,
-        "exegesis_slides": "vashti_disobey_exe_01.png",
-        "lexicon-color": "lex_esther_1.10-12.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -337,8 +355,9 @@
         "book-bible": "Esther",
         "ref": "1:13-22",
         "story_icon.1": null,
-        "exegesis_slides": "removed_queen_exe_01.png",
-        "lexicon-color": "lex_esther_1.13-22.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -355,8 +374,9 @@
         "book-bible": "Esther",
         "ref": "2:1-4",
         "story_icon.1": null,
-        "exegesis_slides": "new_queen_exe_01.png",
-        "lexicon-color": "lex_esther_2.1-4.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -373,8 +393,9 @@
         "book-bible": "Esther",
         "ref": "2:5-11",
         "story_icon.1": null,
-        "exegesis_slides": "esther_chosen_exe_01.png",
-        "lexicon-color": "lex_esther_2.5-11.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -391,8 +412,9 @@
         "book-bible": "Esther",
         "ref": "2:12-14",
         "story_icon.1": null,
-        "exegesis_slides": "presented_king_exe_01.png",
-        "lexicon-color": "lex_esther_2.12-14.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -409,8 +431,9 @@
         "book-bible": "Esther",
         "ref": "2:15-18",
         "story_icon.1": null,
-        "exegesis_slides": "esther_queen_exe_01.png",
-        "lexicon-color": "lex_esther_2.15-18.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -427,8 +450,9 @@
         "book-bible": "Esther",
         "ref": "2:19-23",
         "story_icon.1": null,
-        "exegesis_slides": "king_saves_exe_01.png",
-        "lexicon-color": "lex_esther_2:19-23.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -445,8 +469,9 @@
         "book-bible": "Esther",
         "ref": "3:1-6",
         "story_icon.1": null,
-        "exegesis_slides": "haman_anger_exe_01.png",
-        "lexicon-color": "lex_esther_3.1-6.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -463,8 +488,9 @@
         "book-bible": "Esther",
         "ref": "3:7-11",
         "story_icon.1": null,
-        "exegesis_slides": "destroyed_jews_exe_01.png",
-        "lexicon-color": "lex_esther_3.7-11.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -481,8 +507,9 @@
         "book-bible": "Esther",
         "ref": "3:12-15",
         "story_icon.1": null,
-        "exegesis_slides": "law_annouced_exe_01.png",
-        "lexicon-color": "lex_esther_3.12-15.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -499,8 +526,9 @@
         "book-bible": "Esther",
         "ref": "4:1-3",
         "story_icon.1": null,
-        "exegesis_slides": "jews_mourning_exe_01.png",
-        "lexicon-color": "lex_esther_4.1-3.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -517,8 +545,9 @@
         "book-bible": "Esther",
         "ref": "4:4-11",
         "story_icon.1": null,
-        "exegesis_slides": "esther_learns_exe_01.png",
-        "lexicon-color": "lex_esther_4.4-11.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -535,8 +564,9 @@
         "book-bible": "Esther",
         "ref": "4:12-17",
         "story_icon.1": null,
-        "exegesis_slides": "esther_courage_exe_01.png",
-        "lexicon-color": "lex_esther_4.12-17.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -553,8 +583,9 @@
         "book-bible": "Esther",
         "ref": "5:1-8",
         "story_icon.1": null,
-        "exegesis_slides": "approaches_king_exe_01.png",
-        "lexicon-color": "lex_esther_5.1-8.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -571,8 +602,9 @@
         "book-bible": "Esther",
         "ref": "5:9-14",
         "story_icon.1": null,
-        "exegesis_slides": "haman_pride_exe_01.png",
-        "lexicon-color": "lex_esther_5.9-14.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -589,8 +621,9 @@
         "book-bible": "Esther",
         "ref": "6:1-11",
         "story_icon.1": null,
-        "exegesis_slides": "mordecai_honored_exe_01.png",
-        "lexicon-color": "lex_esther_6.1-11.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -607,8 +640,9 @@
         "book-bible": "Esther",
         "ref": "6:12-14",
         "story_icon.1": null,
-        "exegesis_slides": "haman-humiliated_exe_01.png",
-        "lexicon-color": "lex_esther_6.12-14.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -625,8 +659,9 @@
         "book-bible": "Esther",
         "ref": "7:1-6",
         "story_icon.1": null,
-        "exegesis_slides": "haman_exposed_exe_01.png",
-        "lexicon-color": "lex_esther_7.1-6.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -643,8 +678,9 @@
         "book-bible": "Esther",
         "ref": "7:7-10",
         "story_icon.1": null,
-        "exegesis_slides": "haman_executed_exe_01.png",
-        "lexicon-color": "lex_esther_7.7-10.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -661,8 +697,9 @@
         "book-bible": "Esther",
         "ref": "8:1-2",
         "story_icon.1": null,
-        "exegesis_slides": "mordecai_promoted_exe_01.png",
-        "lexicon-color": "lex_esther_8.1-2.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -679,8 +716,9 @@
         "book-bible": "Esther",
         "ref": "8:3-8",
         "story_icon.1": null,
-        "exegesis_slides": "decree_planned_exe_01.png",
-        "lexicon-color": "lex_esther_8.3-8.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -697,8 +735,9 @@
         "book-bible": "Esther",
         "ref": "8:9-14",
         "story_icon.1": null,
-        "exegesis_slides": "jewish_law_exe_01.png",
-        "lexicon-color": "lex_esther_8.9-14.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -715,8 +754,9 @@
         "book-bible": "Esther",
         "ref": "8:15-17",
         "story_icon.1": null,
-        "exegesis_slides": "joy_jews_exe_01.png",
-        "lexicon-color": "lex_esther_8.15-17.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -733,8 +773,9 @@
         "book-bible": "Esther",
         "ref": "9:1-10",
         "story_icon.1": null,
-        "exegesis_slides": "victory_enemies_exe_01.png",
-        "lexicon-color": "lex_esther_9.1-10.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -751,8 +792,9 @@
         "book-bible": "Esther",
         "ref": "9:11-15",
         "story_icon.1": null,
-        "exegesis_slides": "susa_justice_exe_01.png",
-        "lexicon-color": "lex_esther_9.11-15.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -769,8 +811,9 @@
         "book-bible": "Esther",
         "ref": "9:16-19",
         "story_icon.1": null,
-        "exegesis_slides": "rest_celebration_exe_01.png",
-        "lexicon-color": "lex_esther_9.16-19.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -787,8 +830,9 @@
         "book-bible": "Esther",
         "ref": "9:20-22",
         "story_icon.1": null,
-        "exegesis_slides": "purim_established_exe_01.png",
-        "lexicon-color": "lex_esther_9.20-22.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -805,8 +849,9 @@
         "book-bible": "Esther",
         "ref": "9:23-28",
         "story_icon.1": null,
-        "exegesis_slides": "purim_remembered_exe_01.png",
-        "lexicon-color": "lex_esther_9.23-28.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -823,8 +868,9 @@
         "book-bible": "Esther",
         "ref": "9:29-32",
         "story_icon.1": null,
-        "exegesis_slides": "purim_celebrated _exe_01.png                                                                                                                                                                                   ",
-        "lexicon-color": "lex_esther_9.29-32.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     },
     {
@@ -841,8 +887,9 @@
         "book-bible": "Esther",
         "ref": "10:1-3",
         "story_icon.1": null,
-        "exegesis_slides": "mordecai_greatness_exe_01.png",
-        "lexicon-color": "lex_esther_10.1-3.pdf",
+        "exegesis_slides": null,
+        "lexicon-color": null,
+        "storyboard_videos": null,
         "sign_roots_videos": null
     }
     ]

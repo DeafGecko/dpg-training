@@ -87,8 +87,10 @@ export default function TopBar({ stories = [], onStorySelect, activeStory, color
                 width: iconSize,
                 height: iconSize,
                 borderRadius: iconSize / 2,
-                borderColor: theme === "highContrast" && isSelected ? "#FFFF00" : "#333333",
-                borderWidth: isSelected ? (theme === "highContrast" ? 5 : 3) : 2,
+                borderColor: isSelected
+                  ? theme === "highContrast" ? "#FFFF00" : "#b2a426"
+                  : "#333333",
+                borderWidth: isSelected ? (theme === "highContrast" ? 5 : 4) : 2,
                 opacity: !isSelected && !!activeStory ? 0.35 : 1,
                 marginHorizontal: horizontal ? 4 : 5,
               },
@@ -148,7 +150,7 @@ export default function TopBar({ stories = [], onStorySelect, activeStory, color
 
   // ── DESKTOP ──
   return (
-    <View style={[styles.desktopHeader, { backgroundColor: "#4a6b7c" }]}>
+    <View style={[styles.desktopHeader, { backgroundColor: theme === "highContrast" ? "#cccccc" : "#4a6b7c" }]}>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}

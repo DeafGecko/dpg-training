@@ -8,26 +8,23 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import JesusIcon from "../../assets/icons/topics/T-01/555-jesus.svg";
-import ChurchIcon from "../../assets/icons/topics/T-02/555-church.svg";
-import MissionIcon from "../../assets/icons/topics/T-03/555-mission.svg";
 import DeafPathwayLogo from "../../assets/icons/deafpathway_colorblack.svg";
 import DeafPathwayLogoDark from "../../assets/icons/dpg-darkmode.svg";
 import DeafPathwayLogoHighContrast from "../../assets/icons/dpg-highcontrast_mode.svg";
+import JesusIcon from "../../assets/icons/topics/T-01/555-jesus.svg";
+import ChurchIcon from "../../assets/icons/topics/T-02/555-church.svg";
+import MissionIcon from "../../assets/icons/topics/T-03/555-mission.svg";
 import { ThemeType } from "../hooks/use-theme";
 
 const TOPICS = [
-  { id: "T-01", 
-    line1: "Jesus", 
-    line2: "Foundation Stories", 
-    Icon: JesusIcon },
+  { id: "T-01", line1: "Jesus", line2: "Foundation Stories", Icon: JesusIcon },
   {
     id: "T-02",
     line1: "Church",
     line2: "Foundation Stories",
     Icon: ChurchIcon,
   },
-  { 
+  {
     id: "T-03",
     line1: "Mission",
     line2: "Foundation Stories",
@@ -42,7 +39,7 @@ const THEMES: { key: ThemeType; label: string; Icon: any }[] = [
 ];
 
 type SidebarProps = {
-  activeTopic: string;
+  activeTopic: string | null;
   onTopicSelect: (topicId: string) => void;
   colors: any;
   theme: ThemeType;
@@ -60,8 +57,18 @@ export default function Sidebar({
 }: SidebarProps) {
   const [showSettings, setShowSettings] = useState(false);
 
-  const softText = theme === "dark" ? "#c8c8c8" : theme === "highContrast" ? "#FFFF00" : "#1a3a4a";
-  const softSecondary = theme === "dark" ? "#999999" : theme === "highContrast" ? "#FFFF00" : "#333333";
+  const softText =
+    theme === "dark"
+      ? "#c8c8c8"
+      : theme === "highContrast"
+        ? "#FFFF00"
+        : "#1a3a4a";
+  const softSecondary =
+    theme === "dark"
+      ? "#999999"
+      : theme === "highContrast"
+        ? "#FFFF00"
+        : "#333333";
   const borderColor = theme === "dark" ? "#333333" : colors.backgroundElement;
 
   return (
@@ -75,48 +82,79 @@ export default function Sidebar({
         },
       ]}
     >
-
-{/* Header logo */}
+      {/* Header logo */}
       <View style={styles.header}>
         {onClose && (
           <Pressable style={styles.closeBtn} onPress={onClose} hitSlop={8}>
-            <Text style={[styles.closeBtnText, { color: softSecondary }]}>✕</Text>
+            <Text style={[styles.closeBtnText, { color: softSecondary }]}>
+              ✕
+            </Text>
           </Pressable>
         )}
-        {theme === "highContrast"
-          ? <DeafPathwayLogoHighContrast width={180} height={50} />
-          : theme === "dark"
-          ? <DeafPathwayLogoDark width={180} height={50} />
-          : <DeafPathwayLogo width={180} height={50} />
-        }
+        {theme === "highContrast" ? (
+          <DeafPathwayLogoHighContrast width={180} height={50} />
+        ) : theme === "dark" ? (
+          <DeafPathwayLogoDark width={180} height={50} />
+        ) : (
+          <DeafPathwayLogo width={180} height={50} />
+        )}
       </View>
 
-{/* Topic buttons */}
+      {/* Topic buttons */}
       <View style={{ flex: 1 }}>
         {TOPICS.map(({ id, line1, line2, Icon }) => {
+          const isMission = id === "T-03";
+          const isFrozen = id === "T-01" || id === "T-02";
           const isActive = activeTopic === id;
+
           return (
             <Pressable
               key={id}
-              style={({ pressed }) => [
+              onPress={() => !isFrozen && onTopicSelect(id)} // Blocks interaction for frozen topics
+              style={[
                 styles.topicRow,
-                { opacity: pressed ? 0.5 : 1 },
+                { opacity: isFrozen ? 0.3 : 1 }, // Keeps your dimming logic
               ]}
-              onPress={() => onTopicSelect(id)}
             >
-              <View style={[styles.iconWrapper, isActive && styles.iconWrapperActive, isActive && theme === "highContrast" && { borderColor: "#FFFF00" }]}>
-
-{/* The icon is wrapped in a View to allow for the border styling. */}
+              <View
+                style={[
+                  styles.iconWrapper,
+                  isActive && isMission && styles.iconWrapperActive,
+                  isActive && isMission && {
+                    borderColor: theme === "highContrast" ? "#FFFF00" : "#b2a426",
+                    borderWidth: 4,
+                  },
+                ]}
+              >
                 <Icon
                   width={80}
                   height={100}
                   color={theme === "highContrast" ? "#FFFF00" : undefined}
                 />
               </View>
-              <Text style={[styles.topicTitle, { color: softText }]}>
+              <Text
+                style={[
+                  styles.topicTitle,
+                  {
+                    color: isFrozen
+                      ? "#999"
+                      : theme === "highContrast"
+                        ? "#FFFF00"
+                        : "#1a3a4a",
+                  },
+                ]}
+              >
                 {line1}
               </Text>
-              <Text style={[styles.topicSubtitle, { color: softSecondary }]}>
+              <Text
+                style={[
+                  styles.topicSubtitle,
+                  {
+                    color:
+                      theme === "highContrast" && !isFrozen ? "#FFFF00" : "#333",
+                  },
+                ]}
+              >
                 {line2}
               </Text>
             </Pressable>
@@ -124,7 +162,7 @@ export default function Sidebar({
         })}
       </View>
 
-{/* Settings button at bottom */}
+      {/* Settings button at bottom */}
       <Pressable
         style={({ pressed }) => [
           styles.settingsBtn,
@@ -138,7 +176,7 @@ export default function Sidebar({
         </Text>
       </Pressable>
 
-{/* Theme picker modal */}
+      {/* Theme picker modal */}
       <Modal visible={showSettings} transparent animationType="fade">
         <Pressable
           style={styles.modalOverlay}
@@ -192,7 +230,7 @@ const styles = StyleSheet.create({
   sidebarLogo: {
     width: 174,
     height: 60,
-/* Use 'contain' so it never stretches, even if the container changes */
+    /* Use 'contain' so it never stretches, even if the container changes */
     resizeMode: "contain",
   },
   header: {
@@ -228,9 +266,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
 
-/* Active topic icon wrapper with border */
+  /* Active topic icon wrapper with border */
   iconWrapperActive: {
-    borderColor: "#b2a426",
+    borderColor: "#b2a426", // overridden inline for highContrast
     borderWidth: 4,
     margin: 0,
     padding: 0,
@@ -239,7 +277,7 @@ const styles = StyleSheet.create({
     borderRadius: 0,
     alignItems: "center",
     justifyContent: "center",
-    zIndex: 10, 
+    zIndex: 10,
   },
   topicTitle: {
     fontSize: 16,
@@ -256,7 +294,7 @@ const styles = StyleSheet.create({
     color: "#222222",
   },
 
-// Settings
+  // Settings
   settingsBtn: {
     flexDirection: "column",
     alignItems: "center",
@@ -270,8 +308,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
 
-  
-// Modal
+  // Modal
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.35)",

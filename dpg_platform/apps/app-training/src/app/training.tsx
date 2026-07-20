@@ -11,7 +11,7 @@ const DRAWER_WIDTH = 260;
 
 export default function Training() {
   const { colors, theme, setTheme } = useThemeManager();
-  const [activeTopic, setActiveTopic] = useState("T-01");
+  const [activeTopic, setActiveTopic] = useState<string | null>(null);
   const [activeStory, setActiveStory] = useState<any>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerMounted, setDrawerMounted] = useState(false);
@@ -22,7 +22,7 @@ export default function Training() {
   const isMobile = width < MOBILE_BREAKPOINT;
   const isLandscape = width > height;
 
-  const topicStories = rawData.filter((s: any) => s.theme_id === activeTopic);
+  const topicStories = activeTopic ? rawData.filter((s: any) => s.theme_id === activeTopic) : [];
 
   const openDrawer = () => {
     setDrawerMounted(true);

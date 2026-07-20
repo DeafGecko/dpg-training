@@ -19,67 +19,26 @@ type Story = {
   story_title: string;
   "book-bible"?: string;
   ref?: string;
-  exegesis_slides: string | null | undefined;
+  storyboard_videos: string | null | undefined;
   sign_roots_videos: string | null | undefined;
 };
 
 const MEDIA_ASSETS: Record<string, { type: "image" | "video"; source: any }> = {
-  "12_send_exe_01.png":         { type: "image", source: require("../../assets/media/slides/12_send_exe_01.png") },
-  "521_talents_exe_01.png":     { type: "image", source: require("../../assets/media/slides/521_talents_exe_01.png") },
-  "5000_fed_exe_01.png":        { type: "image", source: require("../../assets/media/slides/5000_fed_exe_.01.png") },
-  "5000_fed_exe_02.png":        { type: "image", source: require("../../assets/media/slides/5000_fed_exe_.02.png") },
-  "5000_fed_exe_05.png":        { type: "image", source: require("../../assets/media/slides/5000_fed_exe_.05.png") },
-  "church_planting_exe_01.png": { type: "image", source: require("../../assets/media/slides/church_planting_exe_01.png") },
-  "fellowship_exe_01.png":      { type: "image", source: require("../../assets/media/slides/fellowship_exe_01.png") },
-  "go_disciple_exe_01.png":     { type: "image", source: require("../../assets/media/slides/go_disciple_exe_01.png") },
-  "jesus_baptist_exe_01.png":   { type: "image", source: require("../../assets/media/slides/jesus_baptist_exe_01.png") },
-  "jesus_pray_exe_01.png":      { type: "image", source: require("../../assets/media/slides/jesus_pray_exe_01.png") },
-  "keys_exe_01.png":            { type: "image", source: require("../../assets/media/slides/keys_exe_01.png") },
-  "keys_exe_02.png":            { type: "image", source: require("../../assets/media/slides/keys_exe_02.png") },
-  "keys_exe_07.png":            { type: "image", source: require("../../assets/media/slides/keys_exe_07.png") },
-  "king_xerexs_exe_01.png":     { type: "image", source: require("../../assets/media/slides/king_xerexs_exe_01.png") },
-  "king_xerexs_exe_02.png":     { type: "image", source: require("../../assets/media/slides/king_xerexs_exe_02.png") },
-  "last_meal_exe_01.png":       { type: "image", source: require("../../assets/media/slides/last_meal_exe_01.png") },
-  "lazarus_exe_01.png":         { type: "image", source: require("../../assets/media/slides/lazarus_exe_01.png") },
-  "new_queen_exe_01.png":       { type: "image", source: require("../../assets/media/slides/new_queen_exe_01.png") },
-  "only_way_exe_01.png":        { type: "image", source: require("../../assets/media/slides/only_way_exe_01.png") },
-  "only_way_exe_02.png":        { type: "image", source: require("../../assets/media/slides/only_way_exe_02.png") },
-  "removed_queen_exe_01.png":   { type: "image", source: require("../../assets/media/slides/removed_queen_exe_01.png") },
-  "s.a.f_exe_01.png":           { type: "image", source: require("../../assets/media/slides/s.a.f_exe_01.png") },
-  "s.a.f_exe_02.png":           { type: "image", source: require("../../assets/media/slides/s.a.f_exe_02.png") },
-  "sacifices_exe_01.png":       { type: "image", source: require("../../assets/media/slides/sacifices_exe_01.png") },
-  "sacifices_exe_02.png":       { type: "image", source: require("../../assets/media/slides/sacifices_exe_02.png") },
-  "salt_light_exe_01.png":      { type: "image", source: require("../../assets/media/slides/salt_light_exe_01.png") },
-  "satan_3x_exe_01.png":        { type: "image", source: require("../../assets/media/slides/satan_3x_exe_01.png") },
-  "shepherd_wolf_exe_01.png":   { type: "image", source: require("../../assets/media/slides/shepherd_wolf_exe_.01.png") },
-  "true_vine_exe_01.png":       { type: "image", source: require("../../assets/media/slides/true_vine_exe_01.png") },
-  "two_houses_exe_01.png":      { type: "image", source: require("../../assets/media/slides/two_houses_exe_.01.png") },
-  "two_houses_exe_02.png":      { type: "image", source: require("../../assets/media/slides/two_houses_exe_.02.png") },
-  "two_houses_exe_03.png":      { type: "image", source: require("../../assets/media/slides/two_houses_exe_.03.png") },
-  "two_houses_exe_07.png":      { type: "image", source: require("../../assets/media/slides/two_houses_exe_.07.png") },
-  "two_houses_exe_08.png":      { type: "image", source: require("../../assets/media/slides/two_houses_exe_.08.png") },
-  "vashti_disobey_exe_01.png":  { type: "image", source: require("../../assets/media/slides/vashti_disobey_exe_01.png") },
-  "watchman_exe_01.png":        { type: "image", source: require("../../assets/media/slides/watchman_exe_01.png") },
-  "watchman_exe_02.png":        { type: "image", source: require("../../assets/media/slides/watchman_exe_02.png") },
-  "watchman_exe_03.png":        { type: "image", source: require("../../assets/media/slides/watchman_exe_03.png") },
-  "watchman_exe_07.png":        { type: "image", source: require("../../assets/media/slides/watchman_exe_07.png") },
-  "watchman_exe_08.png":        { type: "image", source: require("../../assets/media/slides/watchman_exe_08.png") },
-  "wise_foolish_exe_01.png":    { type: "image", source: require("../../assets/media/slides/wise_foolish_exe_01.png") },
-
-  "5000_fed_exe_03.mp4":   { type: "video", source: require("../../assets/media/videos/5000_fed_exe_03.mp4") },
-  "5000_fed_exe_04.mp4":   { type: "video", source: require("../../assets/media/videos/5000_fed_exe_04.mp4") },
-  "5000_fed_exe_06.mp4":   { type: "video", source: require("../../assets/media/videos/5000_fed_exe_06.mp4") },
-  "keys_exe_04.mp4":       { type: "video", source: require("../../assets/media/videos/keys_exe_04.mp4") },
-  "keys_exe_05.mp4":       { type: "video", source: require("../../assets/media/videos/keys_exe_05.mp4") },
-  "keys_exe_09.mp4":       { type: "video", source: require("../../assets/media/videos/keys_exe_09.mp4") },
-  "two_houses_exe_04.mp4": { type: "video", source: require("../../assets/media/videos/two_houses_exe_04.mp4") },
-  "two_houses_exe_05.mp4": { type: "video", source: require("../../assets/media/videos/two_houses_exe_05.mp4") },
-  "two_houses_exe_06.mp4": { type: "video", source: require("../../assets/media/videos/two_houses_exe_06.mp4") },
-  "two_houses_exe_09.mp4": { type: "video", source: require("../../assets/media/videos/two_houses_exe_09.mp4") },
-  "watchman_exe_04.mp4":   { type: "video", source: require("../../assets/media/videos/watchman_exe_04.mp4") },
-  "watchman_exe_05.mp4":   { type: "video", source: require("../../assets/media/videos/watchman_exe_05.mp4") },
-  "watchman_exe_06.mp4":   { type: "video", source: require("../../assets/media/videos/watchman_exe_06.mp4") },
-  "watchman_exe_09.mp4":   { type: "video", source: require("../../assets/media/videos/watchman_exe_09.mp4") },
+  // Videos
+  "5-2-1_talents_sr_01.mp4": { type: "video", source: require("../../assets/media/videos/5-2-1_talents_sr_01.mp4") },
+  "5-2-1_talents_sr_02.mp4": { type: "video", source: require("../../assets/media/videos/5-2-1_talents_sr_02.mp4") },
+  "5-2-1_talents_storyboard.mp4": { type: "video", source: require("../../assets/media/videos/5-2-1_talents_storyboard.mp4") },
+  "12_send_out_sr_01.mp4": { type: "video", source: require("../../assets/media/videos/12_send_out_sr_01.mp4") },
+  "12_send_out_storyboard.mp4": { type: "video", source: require("../../assets/media/videos/12_send_out_storyboard.mp4") },
+  "go_make_disciple_sr_01.mp4": { type: "video", source: require("../../assets/media/videos/go_make_disciple_sr_01.mp4") },
+  "go_make_disciple_sr_02.mp4": { type: "video", source: require("../../assets/media/videos/go_make_disciple_sr_02.mp4") },
+  "go_make_disciple_storyboard.mp4": { type: "video", source: require("../../assets/media/videos/go_make_disciple_storyboard.mp4") },
+  "salt_light_sr_01.mp4": { type: "video", source: require("../../assets/media/videos/salt_light_sr_01.mp4") },
+  "salt_light_sr_02.mp4": { type: "video", source: require("../../assets/media/videos/salt_light_sr_02.mp4") },
+  "salt_light_sr_03.mp4": { type: "video", source: require("../../assets/media/videos/salt_light_sr_03.mp4") },
+  "salt_light_storyboard.mp4": { type: "video", source: require("../../assets/media/videos/salt_light_storyboard.mp4") },
+  "watchman_storyboard.mp4": { type: "video", source: require("../../assets/media/videos/watchman_storyboard.mp4") },
+  "watchman_sr_01.mp4": { type: "video", source: require("../../assets/media/videos/watchman_sr_01.mp4") },
 };
 
 const MOBILE_BREAKPOINT = 768;
@@ -94,14 +53,32 @@ function VideoItem({ source, style }: { source: any; style: any }) {
 export default function ContentPanel({ story, colors, theme }: { story: Story | null; colors: any; theme: ThemeType }) {
   const [slideIndex, setSlideIndex] = useState(0);
   const [pagerHeight, setPagerHeight] = useState(0);
-  const [mode, setMode] = useState<"exegesis" | "videos">("exegesis");
+  const [mode, setMode] = useState<"storyboard" | "signRoots">("storyboard");
   const { width, height } = useWindowDimensions();
   const isMobile = width < MOBILE_BREAKPOINT;
   const isLandscape = width > height;
   const swipeRef = useRef<ScrollView>(null);
   const thumbRef = useRef<ScrollView>(null);
 
-// Reset to first slide when story or mode changes
+  // Parse Storyboard and Sign Roots videos dynamically from the story object
+  const storyboardSlides = parseMediaString(story?.storyboard_videos)
+    .map((f) => MEDIA_ASSETS[f] ?? null)
+    .filter(Boolean) as { type: "image" | "video"; source: any }[];
+
+  const signRootsSlides = parseMediaString(story?.sign_roots_videos)
+    .map((f) => MEDIA_ASSETS[f] ?? null)
+    .filter(Boolean) as { type: "image" | "video"; source: any }[];
+
+  // Automatically default or fallback mode if current mode has no slides
+  useEffect(() => {
+    if (mode === "storyboard" && storyboardSlides.length === 0 && signRootsSlides.length > 0) {
+      setMode("signRoots");
+    } else if (mode === "signRoots" && signRootsSlides.length === 0 && storyboardSlides.length > 0) {
+      setMode("storyboard");
+    }
+  }, [story]);
+
+  // Reset to first slide when story or mode changes
   useEffect(() => {
     setSlideIndex(0);
     swipeRef.current?.scrollTo({ x: 0, animated: false });
@@ -116,14 +93,9 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
     );
   }
 
-  const allExegesisSlides = parseMediaString(story.exegesis_slides)
-    .map((f) => MEDIA_ASSETS[f] ?? null)
-    .filter(Boolean) as { type: "image" | "video"; source: any }[];
-
-  const videoOnlySlides = allExegesisSlides.filter((s) => s.type === "video");
-
-  const slides = mode === "videos" ? videoOnlySlides : allExegesisSlides;
-  const hasVideos = videoOnlySlides.length > 0;
+  const slides = mode === "storyboard" ? storyboardSlides : signRootsSlides;
+  const hasStoryboard = storyboardSlides.length > 0;
+  const hasSignRoots = signRootsSlides.length > 0;
 
   const total = slides.length;
   const currentItem = slides[slideIndex];
@@ -135,7 +107,6 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
       swipeRef.current?.scrollTo({ x: index * width, animated: true });
     }
 
-// scroll thumbnail strip to keep active thumb visible
     thumbRef.current?.scrollTo(
       isMobile
         ? { x: index * (THUMB_W + 10) - width / 2 + THUMB_W / 2, animated: true }
@@ -152,49 +123,48 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
   };
 
   const reference = [story["book-bible"], story.ref].filter(Boolean).join(" ");
-
   const titleColor = theme === "highContrast" ? "#FFFF00" : theme === "dark" ? "#c8c8c8" : "#1a3a4a";
-
   const activeColor = theme === "highContrast" ? "#FFFF00" : theme === "dark" ? "#2a4a5a" : "#4a6b7c";
   const activeTextColor = theme === "highContrast" ? "#000" : "#fff";
   const outlineBorderColor = theme === "dark" ? "#777777" : colors.text;
   const outlineTextColor = theme === "dark" ? "#c8c8c8" : colors.text;
 
-// ── Mode toggle buttons ──
+  // ── Mode toggle buttons (Storyboard Video & Sign Roots Video) ──
   const ModeButtons = () => (
     <View style={styles.headerButtons}>
-      <TouchableOpacity
-        onPress={() => setMode("exegesis")}
-        style={[
-          styles.headerBtn,
-          mode === "exegesis"
-            ? { backgroundColor: activeColor }
-            : [styles.headerBtnOutline, { borderColor: outlineBorderColor }],
-        ]}
-      >
-        <Text style={[styles.headerBtnText, { color: mode === "exegesis" ? activeTextColor : outlineTextColor }]}>
-          Exegesis
-        </Text>
-      </TouchableOpacity>
-      {hasVideos && (
+      {hasStoryboard && (
         <TouchableOpacity
-          onPress={() => setMode("videos")}
+          onPress={() => setMode("storyboard")}
           style={[
             styles.headerBtn,
-            mode === "videos"
+            mode === "storyboard"
               ? { backgroundColor: activeColor }
               : [styles.headerBtnOutline, { borderColor: outlineBorderColor }],
           ]}
         >
-          <Text style={[styles.headerBtnText, { color: mode === "videos" ? activeTextColor : outlineTextColor }]}>
-            Videos
+          <Text style={[styles.headerBtnText, { color: mode === "storyboard" ? activeTextColor : outlineTextColor }]}>
+            Storyboard
+          </Text>
+        </TouchableOpacity>
+      )}
+      {hasSignRoots && (
+        <TouchableOpacity
+          onPress={() => setMode("signRoots")}
+          style={[
+            styles.headerBtn,
+            mode === "signRoots"
+              ? { backgroundColor: activeColor }
+              : [styles.headerBtnOutline, { borderColor: outlineBorderColor }],
+          ]}
+        >
+          <Text style={[styles.headerBtnText, { color: mode === "signRoots" ? activeTextColor : outlineTextColor }]}>
+            Sign Roots
           </Text>
         </TouchableOpacity>
       )}
     </View>
   );
 
-// ── Nav arrows (used on desktop and landscape) ──
   const NavArrows = () => (
     <View style={styles.arrowStack}>
       <TouchableOpacity
@@ -214,7 +184,6 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
     </View>
   );
 
-// ── Video thumbnail with extracted frame ──
   const VideoThumb = ({ source }: { source: any }) => {
     const [uri, setUri] = useState<string | null>(null);
     useEffect(() => {
@@ -232,7 +201,6 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
     );
   };
 
-// ── Thumbnail item ──
   const ThumbItem = ({ item, i }: { item: { type: "image" | "video"; source: any }; i: number }) => (
     <TouchableOpacity
       onPress={() => goTo(i)}
@@ -252,13 +220,12 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
     </TouchableOpacity>
   );
 
-// ══════════════════════════════════════════
-// MOBILE — portrait
-// ══════════════════════════════════════════
+  // ══════════════════════════════════════════
+  // MOBILE — portrait
+  // ══════════════════════════════════════════
   if (isMobile && !isLandscape) {
     return (
       <View style={[styles.container, { backgroundColor: "#111" }]}>
-        {/* Header: title, reference, buttons */}
         <View style={[styles.headerBar, { backgroundColor: colors.backgroundElement ?? "#d6d4a8" }]}>
           <View style={styles.headerLeft}>
             <Text style={[styles.storyTitle, { color: titleColor }]} numberOfLines={1}>{story.story_title}</Text>
@@ -269,33 +236,33 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
           <ModeButtons />
         </View>
 
-{/* Swipeable slide pager */}
         <View
           style={{ flex: 1, backgroundColor: "#111" }}
           onLayout={(e) => setPagerHeight(e.nativeEvent.layout.height)}
         >
-          <ScrollView
-            ref={swipeRef}
-            horizontal
-            pagingEnabled
-            showsHorizontalScrollIndicator={false}
-            onMomentumScrollEnd={handleSwipeEnd}
-            style={{ flex: 1, backgroundColor: "#111" }}
-            contentContainerStyle={{ backgroundColor: "#111" }}
-          >
-            {slides.map((item, i) => (
-              <View key={i} style={{ width, height: pagerHeight, justifyContent: "center", alignItems: "center", backgroundColor: "#111" }}>
-                {item.type === "image" ? (
-                  <Image source={item.source} style={{ width, height: pagerHeight }} resizeMode="contain" />
-                ) : (
+          {total > 0 ? (
+            <ScrollView
+              ref={swipeRef}
+              horizontal
+              pagingEnabled
+              showsHorizontalScrollIndicator={false}
+              onMomentumScrollEnd={handleSwipeEnd}
+              style={{ flex: 1, backgroundColor: "#111" }}
+              contentContainerStyle={{ backgroundColor: "#111" }}
+            >
+              {slides.map((item, i) => (
+                <View key={i} style={{ width, height: pagerHeight, justifyContent: "center", alignItems: "center", backgroundColor: "#111" }}>
                   <VideoItem source={item.source} style={{ width, height: pagerHeight }} />
-                )}
-              </View>
-            ))}
-          </ScrollView>
+                </View>
+              ))}
+            </ScrollView>
+          ) : (
+            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+              <Text style={{ color: "#888" }}>No media available for this mode.</Text>
+            </View>
+          )}
         </View>
 
-{/* Bottom thumbnail strip */}
         {total > 1 && (
           <View style={[styles.mobileThumbBar, { backgroundColor: colors.backgroundElement ?? "#1e1e1e" }]}>
             <ScrollView
@@ -312,45 +279,38 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
     );
   }
 
-// ══════════════════════════════════════════
-// MOBILE — landscape (true fullscreen, arrows only)
-// ══════════════════════════════════════════
+  // ══════════════════════════════════════════
+  // MOBILE — landscape
+  // ══════════════════════════════════════════
   if (isMobile && isLandscape) {
     return (
       <View style={{ width, height, backgroundColor: "#000" }}>
-        {/* Fullscreen swipeable pager */}
-        <ScrollView
-          ref={swipeRef}
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          onMomentumScrollEnd={handleSwipeEnd}
-          style={StyleSheet.absoluteFill}
-        >
-          {slides.map((item, i) => (
-            <View key={i} style={{ width, height, justifyContent: "center", alignItems: "center", backgroundColor: "#000" }}>
-              {item.type === "image" ? (
-                <Image source={item.source} style={{ width, height }} resizeMode="contain" />
-              ) : (
+        {total > 0 ? (
+          <ScrollView
+            ref={swipeRef}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            onMomentumScrollEnd={handleSwipeEnd}
+            style={StyleSheet.absoluteFill}
+          >
+            {slides.map((item, i) => (
+              <View key={i} style={{ width, height, justifyContent: "center", alignItems: "center", backgroundColor: "#000" }}>
                 <VideoItem source={item.source} style={{ width, height }} />
-              )}
-            </View>
-          ))}
-        </ScrollView>
-
-{/* Prev / Next arrows — bottom-right corner only */}
+              </View>
+            ))}
+          </ScrollView>
+        ) : null}
         {total > 1 && <NavArrows />}
       </View>
     );
   }
 
-// ══════════════════════════════════════════
-// DESKTOP — original layout with right strip
-// ══════════════════════════════════════════
+  // ══════════════════════════════════════════
+  // DESKTOP
+  // ══════════════════════════════════════════
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-
-      {/* Header bar */}
       <View style={[styles.headerBar, { backgroundColor: colors.backgroundElement ?? "#d6d4a8" }]}>
         <View style={styles.headerLeft}>
           <Text style={[styles.storyTitle, { color: titleColor }]}>{story.story_title}</Text>
@@ -361,17 +321,13 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
         <ModeButtons />
       </View>
 
-{/* Body: viewer + right thumbnail strip */}
       <View style={styles.body}>
         <View style={[styles.mainViewer, { backgroundColor: "#333333" }]}>
-          {currentItem?.type === "image" && (
-            <Image source={currentItem.source} style={styles.mainMedia} resizeMode="cover" />
-          )}
           {currentItem?.type === "video" && (
             <VideoItem source={currentItem.source} style={styles.mainMedia} />
           )}
           {total === 0 && (
-            <Text style={{ color: colors.text }}>No media for this story.</Text>
+            <Text style={{ color: "#fff" }}>No media available for this view.</Text>
           )}
           {total > 1 && <NavArrows />}
         </View>
@@ -396,8 +352,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
   },
-
-// Header (desktop)
   headerBar: {
     flexDirection: "row",
     alignItems: "center",
@@ -436,8 +390,6 @@ const styles = StyleSheet.create({
     fontSize: 13, 
     fontWeight: "600" 
   },
-
-// Body (desktop)
   body: { 
     flex: 1, 
     flexDirection: "row", 
@@ -456,8 +408,6 @@ const styles = StyleSheet.create({
     height: "100%", 
     borderRadius: 8 
   },
-
-// Arrows — desktop (vertical) + landscape (horizontal, bottom-right)
   arrowStack: {
     position: "absolute",
     bottom: 16,
@@ -479,8 +429,6 @@ const styles = StyleSheet.create({
     fontWeight: "700", 
     lineHeight: 28 
   },
-
-// Desktop thumbnail strip (vertical, right side)
   thumbnailStrip: { 
     width: 110, 
     flexShrink: 0, 
@@ -490,8 +438,6 @@ const styles = StyleSheet.create({
     alignItems: "center", 
     paddingVertical: 8 
   },
-
-// Shared thumbnail
   thumbnail: {
     marginBottom: 8,
     borderRadius: 6,
@@ -505,7 +451,8 @@ const styles = StyleSheet.create({
   },
   thumbnailMedia: { 
     width: THUMB_W, 
-    height: THUMB_H },
+    height: THUMB_H 
+  },
   thumbnailVideo: { 
     backgroundColor: "#222", 
     justifyContent: "center", 
@@ -515,8 +462,6 @@ const styles = StyleSheet.create({
     color: "#fff", 
     fontSize: 20 
   },
-
-// Mobile portrait thumbnail bar (horizontal, bottom)
   mobileThumbBar: {
     height: THUMB_H + 20,
     borderTopWidth: 1,
@@ -528,17 +473,5 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     flexDirection: "row",
     gap: 8,
-  },
-
-// Landscape overlays
-  landscapeTitleOverlay: {
-    position: "absolute",
-    top: 12,
-    left: 16,
-  },
-  landscapeTitle: {
-    fontSize: 14,
-    fontWeight: "700",
-    opacity: 0.8,
   },
 });
