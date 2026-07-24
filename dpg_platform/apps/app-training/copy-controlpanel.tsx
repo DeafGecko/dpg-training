@@ -23,22 +23,29 @@ type Story = {
   sign_roots_videos: string | null | undefined;
 };
 
+const MEDIA_ASSETS: Record<string, { type: "image" | "video"; source: any }> = {
+  // Videos
+  "5-2-1_talents_sr_01.mp4": { type: "video", source: require("../../assets/media/videos/5-2-1_talents_sr_01.mp4") },
+  "5-2-1_talents_sr_02.mp4": { type: "video", source: require("../../assets/media/videos/5-2-1_talents_sr_02.mp4") },
+  "5-2-1_talents_storyboard.mp4": { type: "video", source: require("../../assets/media/videos/5-2-1_talents_storyboard.mp4") },
+  "12_send_out_sr_01.mp4": { type: "video", source: require("../../assets/media/videos/12_send_out_sr_01.mp4") },
+  "12_send_out_storyboard.mp4": { type: "video", source: require("../../assets/media/videos/12_send_out_storyboard.mp4") },
+  "go_make_disciple_sr_01.mp4": { type: "video", source: require("../../assets/media/videos/go_make_disciple_sr_01.mp4") },
+  "go_make_disciple_sr_02.mp4": { type: "video", source: require("../../assets/media/videos/go_make_disciple_sr_02.mp4") },
+  "go_make_disciple_storyboard.mp4": { type: "video", source: require("../../assets/media/videos/go_make_disciple_storyboard.mp4") },
+  "salt_light_sr_01.mp4": { type: "video", source: require("../../assets/media/videos/salt_light_sr_01.mp4") },
+  "salt_light_sr_02.mp4": { type: "video", source: require("../../assets/media/videos/salt_light_sr_02.mp4") },
+  "salt_light_sr_03.mp4": { type: "video", source: require("../../assets/media/videos/salt_light_sr_03.mp4") },
+  "salt_light_storyboard.mp4": { type: "video", source: require("../../assets/media/videos/salt_light_storyboard.mp4") },
+  "watchman_storyboard.mp4": { type: "video", source: require("../../assets/media/videos/watchman_storyboard.mp4") },
+  "watchman_sr_01.mp4": { type: "video", source: require("../../assets/media/videos/watchman_sr_01.mp4") },
+};
+
 const MOBILE_BREAKPOINT = 768;
 const THUMB_W = 90;
 const THUMB_H = 56;
 
-// Helper function to format Dropbox links for direct video streaming
-const formatDropboxUrl = (url: string) => {
-  if (!url) return "";
-  const trimmed = url.trim();
-// If it's a Dropbox link, convert dl=0 or dl=1 to raw=1 for direct streaming
-  if (trimmed.includes("dropbox.com")) {
-    return trimmed.replace("dl=0", "raw=1").replace("dl=1", "raw=1");
-  }
-  return trimmed;
-};
-
-function VideoItem({ source, style }: { source: string; style: any }) {
+function VideoItem({ source, style }: { source: any; style: any }) {
   const player = useVideoPlayer(source);
   return <VideoView player={player} style={style} nativeControls contentFit="contain" />;
 }
@@ -53,18 +60,16 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
   const swipeRef = useRef<ScrollView>(null);
   const thumbRef = useRef<ScrollView>(null);
 
-// Parse Storyboard and Sign Roots videos dynamically as URLs from the story object
+  // Parse Storyboard and Sign Roots videos dynamically from the story object
   const storyboardSlides = parseMediaString(story?.storyboard_videos)
-    .map((url) => formatDropboxUrl(url))
-    .filter(Boolean)
-    .map((source) => ({ type: "video" as const, source }));
+    .map((f) => MEDIA_ASSETS[f] ?? null)
+    .filter(Boolean) as { type: "image" | "video"; source: any }[];
 
   const signRootsSlides = parseMediaString(story?.sign_roots_videos)
-    .map((url) => formatDropboxUrl(url))
-    .filter(Boolean)
-    .map((source) => ({ type: "video" as const, source }));
+    .map((f) => MEDIA_ASSETS[f] ?? null)
+    .filter(Boolean) as { type: "image" | "video"; source: any }[];
 
-// Automatically default or fallback mode if current mode has no slides
+  // Automatically default or fallback mode if current mode has no slides
   useEffect(() => {
     if (mode === "storyboard" && storyboardSlides.length === 0 && signRootsSlides.length > 0) {
       setMode("signRoots");
@@ -73,7 +78,7 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
     }
   }, [story]);
 
-// Reset to first slide when story or mode changes
+  // Reset to first slide when story or mode changes
   useEffect(() => {
     setSlideIndex(0);
     swipeRef.current?.scrollTo({ x: 0, animated: false });
@@ -124,7 +129,7 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
   const outlineBorderColor = theme === "dark" ? "#777777" : colors.text;
   const outlineTextColor = theme === "dark" ? "#c8c8c8" : colors.text;
 
-// ── Mode toggle buttons (Storyboard & Sign Roots) ──
+  // ── Mode toggle buttons (Storyboard Video & Sign Roots Video) ──
   const ModeButtons = () => (
     <View style={styles.headerButtons}>
       {hasStoryboard && (
@@ -179,7 +184,7 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
     </View>
   );
 
-  const VideoThumb = ({ source }: { source: string }) => {
+  const VideoThumb = ({ source }: { source: any }) => {
     const [uri, setUri] = useState<string | null>(null);
     useEffect(() => {
       VideoThumbnails.getThumbnailAsync(source, { time: 0 })
@@ -196,7 +201,7 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
     );
   };
 
-  const ThumbItem = ({ item, i }: { item: { type: "video"; source: string }; i: number }) => (
+  const ThumbItem = ({ item, i }: { item: { type: "image" | "video"; source: any }; i: number }) => (
     <TouchableOpacity
       onPress={() => goTo(i)}
       style={[
@@ -207,13 +212,17 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
         i !== slideIndex && { opacity: 0.35 },
       ]}
     >
-      <VideoThumb source={item.source} />
+      {item.type === "image" ? (
+        <Image source={item.source} style={styles.thumbnailMedia} resizeMode="cover" />
+      ) : (
+        <VideoThumb source={item.source} />
+      )}
     </TouchableOpacity>
   );
 
-// ══════════════════════════════════════════
-// MOBILE — portrait
-// ══════════════════════════════════════════
+  // ══════════════════════════════════════════
+  // MOBILE — portrait
+  // ══════════════════════════════════════════
   if (isMobile && !isLandscape) {
     return (
       <View style={[styles.container, { backgroundColor: "#111" }]}>
@@ -270,9 +279,9 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
     );
   }
 
-// ══════════════════════════════════════════
-// MOBILE — landscape
-// ══════════════════════════════════════════
+  // ══════════════════════════════════════════
+  // MOBILE — landscape
+  // ══════════════════════════════════════════
   if (isMobile && isLandscape) {
     return (
       <View style={{ width, height, backgroundColor: "#000" }}>
@@ -297,9 +306,9 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
     );
   }
 
-// ══════════════════════════════════════════
-// DESKTOP
-// ══════════════════════════════════════════
+  // ══════════════════════════════════════════
+  // DESKTOP
+  // ══════════════════════════════════════════
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={[styles.headerBar, { backgroundColor: colors.backgroundElement ?? "#d6d4a8" }]}>
