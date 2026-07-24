@@ -27,6 +27,7 @@ export default function Login() {
 
     if (validAccessKeys.has(normalized)) {
       setHasError(false);
+      if (typeof window !== "undefined") sessionStorage.setItem("auth", "1");
       router.replace("/training");
     } else {
       setHasError(true);

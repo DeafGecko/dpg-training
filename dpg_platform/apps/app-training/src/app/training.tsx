@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { router } from "expo-router";
 import { Animated, Modal, Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
 import ContentPanel from "../components/ContentPanel";
 import Sidebar from "../components/Sidebar";
@@ -10,6 +11,12 @@ const MOBILE_BREAKPOINT = 768;
 const DRAWER_WIDTH = 260;
 
 export default function Training() {
+  useEffect(() => {
+    if (typeof window !== "undefined" && !sessionStorage.getItem("auth")) {
+      router.replace("/login");
+    }
+  }, []);
+
   const { colors, theme, setTheme } = useThemeManager();
   const [activeTopic, setActiveTopic] = useState<string | null>(null);
   const [activeStory, setActiveStory] = useState<any>(null);
