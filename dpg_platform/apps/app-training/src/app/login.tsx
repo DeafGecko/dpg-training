@@ -4,7 +4,7 @@ import { router } from "expo-router";
 import rawData from "../../data/Translation_camp.json";
 import DpgLogo from "../../assets/icons/dpg_brand_mark_color.svg";
 
-const normalizeAccessKey = (value: string) => value.replace(/[\u201c\u201d\u201e\u2018\u2019']/g, "").trim();
+const normalizeAccessKey = (value: string) => value.replace(/[\u201c\u201d\u201e\u2018\u2019'"]/g, "").trim();
 
 const collectAccessKeys = (data: any[]) => {
   const keys = new Set<string>();
