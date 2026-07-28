@@ -21,32 +21,80 @@ type Story = {
   ref?: string;
   storyboard_videos: string | null | undefined;
   sign_roots_videos: string | null | undefined;
+  exegesis_slides: string | null | undefined;
 };
 
 const MOBILE_BREAKPOINT = 768;
 const THUMB_W = 90;
 const THUMB_H = 56;
 
-// Helper function to format Dropbox links for direct video streaming
 const formatDropboxUrl = (url: string) => {
   if (!url) return "";
   const trimmed = url.trim();
-// If it's a Dropbox link, convert dl=0 or dl=1 to raw=1 for direct streaming
   if (trimmed.includes("dropbox.com")) {
     return trimmed.replace("dl=0", "raw=1").replace("dl=1", "raw=1");
   }
   return trimmed;
 };
 
-function VideoItem({ source, style }: { source: string; style: any }) {
+const getVimeoEmbedUrl = (url: string): string | null => {
+  const match = url.match(/vimeo\.com\/(\d+)(\/([a-f0-9]+))?/);
+  if (!match) return null;
+  const id = match[1];
+  const hash = match[3];
+  return hash
+    ? `https://player.vimeo.com/video/${id}?h=${hash}&autoplay=0`
+    : `https://player.vimeo.com/video/${id}?autoplay=0`;
+};
+
+const isExternalLink = (url: string) =>
+  url.includes("t.me/") || url.includes("telegram");
+
+function NativeVideoItem({ source, style }: { source: string; style: any }) {
   const player = useVideoPlayer(source);
   return <VideoView player={player} style={style} nativeControls contentFit="contain" />;
+}
+
+function VideoItem({ source, style }: { source: string; style: any }) {
+  const vimeoEmbed = getVimeoEmbedUrl(source);
+
+  if (vimeoEmbed) {
+    return (
+      <View style={[style, { overflow: "hidden" }]}>
+        {/* @ts-ignore — iframe is web-only */}
+        <iframe
+          src={vimeoEmbed}
+          style={{ width: "100%", height: "100%", border: "none" }}
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowFullScreen
+        />
+      </View>
+    );
+  }
+
+  if (isExternalLink(source)) {
+    return (
+      <View style={[style, { justifyContent: "center", alignItems: "center", backgroundColor: "#1a1a2e" }]}>
+        <Text style={{ color: "#fff", fontSize: 13, marginBottom: 12, textAlign: "center", paddingHorizontal: 16 }}>
+          This video is hosted externally
+        </Text>
+        <TouchableOpacity
+          onPress={() => { if (typeof window !== "undefined") window.open(source, "_blank"); }}
+          style={{ backgroundColor: "#b2a426", paddingVertical: 10, paddingHorizontal: 20, borderRadius: 8 }}
+        >
+          <Text style={{ color: "#fff", fontWeight: "700" }}>Open Video</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  return <NativeVideoItem source={source} style={style} />;
 }
 
 export default function ContentPanel({ story, colors, theme }: { story: Story | null; colors: any; theme: ThemeType }) {
   const [slideIndex, setSlideIndex] = useState(0);
   const [pagerHeight, setPagerHeight] = useState(0);
-  const [mode, setMode] = useState<"storyboard" | "signRoots">("storyboard");
+  const [mode, setMode] = useState<"storyboard" | "signRoots" | "exegesis">("storyboard");
   const { width, height } = useWindowDimensions();
   const isMobile = width < MOBILE_BREAKPOINT;
   const isLandscape = width > height;
@@ -64,12 +112,22 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
     .filter(Boolean)
     .map((source) => ({ type: "video" as const, source }));
 
+  const exegesisSlides = parseMediaString(story?.exegesis_slides)
+    .map((url) => formatDropboxUrl(url))
+    .filter(Boolean)
+    .map((source) => ({ type: "video" as const, source }));
+
 // Automatically default or fallback mode if current mode has no slides
   useEffect(() => {
-    if (mode === "storyboard" && storyboardSlides.length === 0 && signRootsSlides.length > 0) {
-      setMode("signRoots");
-    } else if (mode === "signRoots" && signRootsSlides.length === 0 && storyboardSlides.length > 0) {
-      setMode("storyboard");
+    if (mode === "storyboard" && storyboardSlides.length === 0) {
+      if (signRootsSlides.length > 0) setMode("signRoots");
+      else if (exegesisSlides.length > 0) setMode("exegesis");
+    } else if (mode === "signRoots" && signRootsSlides.length === 0) {
+      if (storyboardSlides.length > 0) setMode("storyboard");
+      else if (exegesisSlides.length > 0) setMode("exegesis");
+    } else if (mode === "exegesis" && exegesisSlides.length === 0) {
+      if (storyboardSlides.length > 0) setMode("storyboard");
+      else if (signRootsSlides.length > 0) setMode("signRoots");
     }
   }, [story]);
 
@@ -88,7 +146,7 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
     );
   }
 
-  const slides = mode === "storyboard" ? storyboardSlides : signRootsSlides;
+  const slides = mode === "storyboard" ? storyboardSlides : mode === "signRoots" ? signRootsSlides : exegesisSlides;
   const hasStoryboard = storyboardSlides.length > 0;
   const hasSignRoots = signRootsSlides.length > 0;
 
@@ -124,9 +182,24 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
   const outlineBorderColor = theme === "dark" ? "#777777" : colors.text;
   const outlineTextColor = theme === "dark" ? "#c8c8c8" : colors.text;
 
-// ── Mode toggle buttons (Storyboard & Sign Roots) ──
+// ── Mode toggle buttons (Exegesis | Storyboard | Sign Roots) ──
   const ModeButtons = () => (
     <View style={styles.headerButtons}>
+      {exegesisSlides.length > 0 && (
+        <TouchableOpacity
+          onPress={() => setMode("exegesis")}
+          style={[
+            styles.headerBtn,
+            mode === "exegesis"
+              ? { backgroundColor: activeColor }
+              : [styles.headerBtnOutline, { borderColor: outlineBorderColor }],
+          ]}
+        >
+          <Text style={[styles.headerBtnText, { color: mode === "exegesis" ? activeTextColor : outlineTextColor }]}>
+            Exegesis
+          </Text>
+        </TouchableOpacity>
+      )}
       {hasStoryboard && (
         <TouchableOpacity
           onPress={() => setMode("storyboard")}
@@ -181,7 +254,9 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
 
   const VideoThumb = ({ source }: { source: string }) => {
     const [uri, setUri] = useState<string | null>(null);
+    const isVimeo = !!getVimeoEmbedUrl(source);
     useEffect(() => {
+      if (isVimeo) return;
       VideoThumbnails.getThumbnailAsync(source, { time: 0 })
         .then((r) => setUri(r.uri))
         .catch(() => {});
@@ -315,7 +390,7 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
       <View style={styles.body}>
         <View style={[styles.mainViewer, { backgroundColor: "#333333" }]}>
           {currentItem?.type === "video" && (
-            <VideoItem source={currentItem.source} style={styles.mainMedia} />
+            <VideoItem key={currentItem.source} source={currentItem.source} style={styles.mainMedia} />
           )}
           {total === 0 && (
             <Text style={{ color: "#fff" }}>No media available for this view.</Text>

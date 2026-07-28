@@ -2,33 +2,62 @@ import { useState, useRef, useEffect } from "react";
 import { router } from "expo-router";
 import { Animated, Modal, Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
 import ContentPanel from "../components/ContentPanel";
-import Sidebar from "../components/Sidebar";
+import Sidebar, { ALL_TOPICS } from "../components/Sidebar";
 import TopBar from "../components/TopBar";
 import { useThemeManager } from "../hooks/use-theme";
 import rawData from "../../data/Translation_camp.json";
+
+const normalizeKey = (v: string) => v.replace(/[“”„‘’']/g, "").trim();
+
+function getUnlockedTopics(accessKey: string) {
+  const unlockedIds = new Set<string>();
+  (rawData as any[]).forEach((story) => {
+    const raw = story["access-keys"];
+    if (!raw) return;
+    const keys = raw.split(",").map(normalizeKey).filter(Boolean);
+    if (keys.includes(accessKey)) unlockedIds.add(story.theme_id);
+  });
+  return ALL_TOPICS.filter((t) => unlockedIds.has(t.id));
+}
 
 const MOBILE_BREAKPOINT = 768;
 const DRAWER_WIDTH = 260;
 
 export default function Training() {
-  useEffect(() => {
-    if (typeof window !== "undefined" && !sessionStorage.getItem("auth")) {
-      router.replace("/login");
-    }
-  }, []);
-
+  const [authed, setAuthed] = useState<boolean | null>(null);
   const { colors, theme, setTheme } = useThemeManager();
   const [activeTopic, setActiveTopic] = useState<string | null>(null);
   const [activeStory, setActiveStory] = useState<any>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerMounted, setDrawerMounted] = useState(false);
-
   const slideAnim = useRef(new Animated.Value(-DRAWER_WIDTH)).current;
-
   const { width, height } = useWindowDimensions();
+
   const isMobile = width < MOBILE_BREAKPOINT;
   const isLandscape = width > height;
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (!sessionStorage.getItem("auth")) {
+        router.replace("/login");
+      } else {
+        setAuthed(true);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isMobile) {
+      slideAnim.setValue(-DRAWER_WIDTH);
+      setDrawerOpen(false);
+      setDrawerMounted(false);
+    }
+  }, [isMobile]);
+
+  if (!authed) return null;
+
+  const accessKey = typeof window !== "undefined" ? sessionStorage.getItem("accessKey") ?? "" : "";
+  const unlockedTopics = getUnlockedTopics(accessKey);
   const topicStories = activeTopic ? rawData.filter((s: any) => s.theme_id === activeTopic) : [];
 
   const openDrawer = () => {
@@ -53,15 +82,6 @@ export default function Training() {
     });
   };
 
-  // Reset drawer when switching to desktop
-  useEffect(() => {
-    if (!isMobile) {
-      slideAnim.setValue(-DRAWER_WIDTH);
-      setDrawerOpen(false);
-      setDrawerMounted(false);
-    }
-  }, [isMobile]);
-
   const handleTopicSelect = (topicId: string) => {
     setActiveTopic(topicId);
     setActiveStory(null);
@@ -70,6 +90,7 @@ export default function Training() {
 
   const sidebar = (
     <Sidebar
+      topics={unlockedTopics}
       activeTopic={activeTopic}
       onTopicSelect={handleTopicSelect}
       colors={colors}

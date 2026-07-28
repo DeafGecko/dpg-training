@@ -14,22 +14,14 @@ import DeafPathwayLogoHighContrast from "../../assets/icons/dpg-highcontrast_mod
 import JesusIcon from "../../assets/icons/topics/T-01/555-jesus.svg";
 import ChurchIcon from "../../assets/icons/topics/T-02/555-church.svg";
 import MissionIcon from "../../assets/icons/topics/T-03/555-mission.svg";
+import EstherIcon from "../../assets/icons/topics/B-17/17.000.000-000.svg";
 import { ThemeType } from "../hooks/use-theme";
 
-const TOPICS = [
+export const ALL_TOPICS: { id: string; line1: string; line2: string; Icon: any }[] = [
   { id: "T-01", line1: "Jesus", line2: "Foundation Stories", Icon: JesusIcon },
-  {
-    id: "T-02",
-    line1: "Church",
-    line2: "Foundation Stories",
-    Icon: ChurchIcon,
-  },
-  {
-    id: "T-03",
-    line1: "Mission",
-    line2: "Foundation Stories",
-    Icon: MissionIcon,
-  },
+  { id: "T-02", line1: "Church", line2: "Foundation Stories", Icon: ChurchIcon },
+  { id: "T-03", line1: "Mission", line2: "Foundation Stories", Icon: MissionIcon },
+  { id: "B-17", line1: "Esther", line2: "Story Set", Icon: EstherIcon },
 ];
 
 const THEMES: { key: ThemeType; label: string; Icon: any }[] = [
@@ -38,7 +30,10 @@ const THEMES: { key: ThemeType; label: string; Icon: any }[] = [
   { key: "highContrast", label: "High Contrast", Icon: Contrast },
 ];
 
+type Topic = { id: string; line1: string; line2: string; Icon: any };
+
 type SidebarProps = {
+  topics: Topic[];
   activeTopic: string | null;
   onTopicSelect: (topicId: string) => void;
   colors: any;
@@ -48,6 +43,7 @@ type SidebarProps = {
 };
 
 export default function Sidebar({
+  topics,
   activeTopic,
   onTopicSelect,
   colors,
@@ -102,25 +98,20 @@ export default function Sidebar({
 
       {/* Topic buttons */}
       <View style={{ flex: 1 }}>
-        {TOPICS.map(({ id, line1, line2, Icon }) => {
-          const isMission = id === "T-03";
-          const isFrozen = id === "T-01" || id === "T-02";
+        {topics.map(({ id, line1, line2, Icon }) => {
           const isActive = activeTopic === id;
 
           return (
             <Pressable
               key={id}
-              onPress={() => !isFrozen && onTopicSelect(id)} // Blocks interaction for frozen topics
-              style={[
-                styles.topicRow,
-                { opacity: isFrozen ? 0.3 : 1 }, // Keeps your dimming logic
-              ]}
+              onPress={() => onTopicSelect(id)}
+              style={styles.topicRow}
             >
               <View
                 style={[
                   styles.iconWrapper,
-                  isActive && isMission && styles.iconWrapperActive,
-                  isActive && isMission && {
+                  isActive && styles.iconWrapperActive,
+                  isActive && {
                     borderColor: theme === "highContrast" ? "#FFFF00" : "#b2a426",
                     borderWidth: 4,
                   },
@@ -135,13 +126,7 @@ export default function Sidebar({
               <Text
                 style={[
                   styles.topicTitle,
-                  {
-                    color: isFrozen
-                      ? "#999"
-                      : theme === "highContrast"
-                        ? "#FFFF00"
-                        : "#1a3a4a",
-                  },
+                  { color: theme === "highContrast" ? "#FFFF00" : "#1a3a4a" },
                 ]}
               >
                 {line1}
@@ -149,10 +134,7 @@ export default function Sidebar({
               <Text
                 style={[
                   styles.topicSubtitle,
-                  {
-                    color:
-                      theme === "highContrast" && !isFrozen ? "#FFFF00" : "#333",
-                  },
+                  { color: theme === "highContrast" ? "#FFFF00" : "#333" },
                 ]}
               >
                 {line2}

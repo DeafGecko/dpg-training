@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Image,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
@@ -31,6 +32,41 @@ import Warning         from "../../assets/icons/topics/T-03/warning.svg";
 import SaltLight       from "../../assets/icons/topics/T-03/salt_light.svg";
 import Send12          from "../../assets/icons/topics/T-03/12_send.svg";
 import Talents521      from "../../assets/icons/topics/T-03/5•2•1_talents.svg";
+
+// B-17 Esther (PNG)
+const ESTHER_PNG: Record<string, any> = {
+  "B-17-1":  require("../../assets/icons/topics/B-17/17.001.001-009.png"),
+  "B-17-2":  require("../../assets/icons/topics/B-17/17.001.010-012.png"),
+  "B-17-3":  require("../../assets/icons/topics/B-17/17.001.013-022.png"),
+  "B-17-4":  require("../../assets/icons/topics/B-17/17.002.001-004.png"),
+  "B-17-5":  require("../../assets/icons/topics/B-17/17.002.005-011.png"),
+  "B-17-6":  require("../../assets/icons/topics/B-17/17.002.012-014.png"),
+  "B-17-7":  require("../../assets/icons/topics/B-17/17.002.015-018.png"),
+  "B-17-8":  require("../../assets/icons/topics/B-17/17.002.019-023.png"),
+  "B-17-9":  require("../../assets/icons/topics/B-17/17.003.001-006.png"),
+  "B-17-10": require("../../assets/icons/topics/B-17/17.003.007-011.png"),
+  "B-17-11": require("../../assets/icons/topics/B-17/17.003.012-015.png"),
+  "B-17-12": require("../../assets/icons/topics/B-17/17.004.001-003.png"),
+  "B-17-13": require("../../assets/icons/topics/B-17/17.004.004-011.png"),
+  "B-17-14": require("../../assets/icons/topics/B-17/17.004.012-017.png"),
+  "B-17-15": require("../../assets/icons/topics/B-17/17.005.001-008.png"),
+  "B-17-16": require("../../assets/icons/topics/B-17/17.005.009-014.png"),
+  "B-17-17": require("../../assets/icons/topics/B-17/17.006.001-011.png"),
+  "B-17-18": require("../../assets/icons/topics/B-17/17.006.012-014.png"),
+  "B-17-19": require("../../assets/icons/topics/B-17/17.007.001-008.png"),
+  "B-17-20": require("../../assets/icons/topics/B-17/17.007.007-010.png"),
+  "B-17-21": require("../../assets/icons/topics/B-17/17.008.001-002.png"),
+  "B-17-22": require("../../assets/icons/topics/B-17/17.008.003-008.png"),
+  "B-17-23": require("../../assets/icons/topics/B-17/17.008.009-014.png"),
+  "B-17-24": require("../../assets/icons/topics/B-17/17.008.014.017.png"),
+  "B-17-25": require("../../assets/icons/topics/B-17/17.009.001-010.png"),
+  "B-17-26": require("../../assets/icons/topics/B-17/17.009.011-015.png"),
+  "B-17-27": require("../../assets/icons/topics/B-17/17.009.016-019.png"),
+  "B-17-28": require("../../assets/icons/topics/B-17/17.009.020-022.png"),
+  "B-17-29": require("../../assets/icons/topics/B-17/17.009.023-028.png"),
+  "B-17-30": require("../../assets/icons/topics/B-17/17.009.029-032.png"),
+  "B-17-31": require("../../assets/icons/topics/B-17/17.010.001-003.png"),
+};
 
 const STORY_ICON_MAP: Record<string, React.FC<SvgProps>> = {
   "T-01-1": TwoHouses,
@@ -77,7 +113,8 @@ export default function TopBar({ stories = [], onStorySelect, activeStory, color
       {stories.map((story) => {
         const isSelected = activeStory?.story_id === story.story_id;
         const iconKey = `${story.theme_id}-${story.story_id}`;
-        const Icon = STORY_ICON_MAP[iconKey];
+        const SvgIcon = STORY_ICON_MAP[iconKey];
+        const pngSource = ESTHER_PNG[iconKey];
         return (
           <TouchableOpacity
             key={story.story_id}
@@ -97,8 +134,10 @@ export default function TopBar({ stories = [], onStorySelect, activeStory, color
             ]}
             onPress={() => onStorySelect(story)}
           >
-            {Icon ? (
-              <Icon width="100%" height="100%" />
+            {pngSource ? (
+              <Image source={pngSource} style={{ width: iconSize, height: iconSize }} resizeMode="cover" />
+            ) : SvgIcon ? (
+              <SvgIcon width={iconSize} height={iconSize} />
             ) : (
               <Text style={{ color: colors.text, fontSize: 8 }}>
                 {story.story_title.substring(0, 3)}
