@@ -88,6 +88,11 @@ export default function Training() {
     if (isMobile) closeDrawer();
   };
 
+  const handleLogout = () => {
+    sessionStorage.clear();
+    router.replace("/login");
+  };
+
   const sidebar = (
     <Sidebar
       topics={unlockedTopics}
@@ -97,6 +102,7 @@ export default function Training() {
       theme={theme}
       onThemeChange={setTheme}
       onClose={isMobile ? closeDrawer : undefined}
+      onLogout={handleLogout}
     />
   );
 

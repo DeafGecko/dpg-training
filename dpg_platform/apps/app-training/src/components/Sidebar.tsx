@@ -1,4 +1,4 @@
-import { Contrast, Moon, Settings, Sun } from "lucide-react-native";
+import { Contrast, LogOut, Moon, Settings, Sun } from "lucide-react-native";
 import { useState } from "react";
 import {
   Modal,
@@ -40,6 +40,7 @@ type SidebarProps = {
   theme: ThemeType;
   onThemeChange: (theme: ThemeType) => void;
   onClose?: () => void;
+  onLogout?: () => void;
 };
 
 export default function Sidebar({
@@ -50,6 +51,7 @@ export default function Sidebar({
   theme,
   onThemeChange,
   onClose,
+  onLogout,
 }: SidebarProps) {
   const [showSettings, setShowSettings] = useState(false);
 
@@ -193,6 +195,18 @@ export default function Sidebar({
                 {theme === key && <Text style={styles.themeCheck}>✓</Text>}
               </TouchableOpacity>
             ))}
+            {onLogout && (
+              <TouchableOpacity
+                style={styles.logoutRow}
+                onPress={() => {
+                  setShowSettings(false);
+                  onLogout();
+                }}
+              >
+                <LogOut size={18} color="#c0392b" />
+                <Text style={styles.logoutLabel}>Log Out</Text>
+              </TouchableOpacity>
+            )}
           </View>
         </Pressable>
       </Modal>
@@ -336,5 +350,21 @@ const styles = StyleSheet.create({
     color: "#4a6b7c",
     fontSize: 16,
     fontWeight: "700",
+  },
+  logoutRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderTopWidth: 1,
+    borderTopColor: "#eee",
+    marginTop: 8,
+    gap: 12,
+  },
+  logoutLabel: {
+    flex: 1,
+    fontSize: 14,
+    color: "#c0392b",
+    fontWeight: "600",
   },
 });

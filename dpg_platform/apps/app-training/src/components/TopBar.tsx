@@ -58,7 +58,7 @@ const ESTHER_PNG: Record<string, any> = {
   "B-17-21": require("../../assets/icons/topics/B-17/17.008.001-002.png"),
   "B-17-22": require("../../assets/icons/topics/B-17/17.008.003-008.png"),
   "B-17-23": require("../../assets/icons/topics/B-17/17.008.009-014.png"),
-  "B-17-24": require("../../assets/icons/topics/B-17/17.008.014.017.png"),
+  "B-17-24": require("../../assets/icons/topics/B-17/17.008.015.017.png"),
   "B-17-25": require("../../assets/icons/topics/B-17/17.009.001-010.png"),
   "B-17-26": require("../../assets/icons/topics/B-17/17.009.011-015.png"),
   "B-17-27": require("../../assets/icons/topics/B-17/17.009.016-019.png"),
