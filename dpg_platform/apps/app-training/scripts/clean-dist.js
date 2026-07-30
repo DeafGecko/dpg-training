@@ -36,7 +36,7 @@ const LOGIN_JS = `
     // Store and let the React training app validate on load
     sessionStorage.setItem("auth", "1");
     sessionStorage.setItem("accessKey", key);
-    window.location.href = "/training.html";
+    window.location.href = "/training";
   });
 
   function showError(show) {
