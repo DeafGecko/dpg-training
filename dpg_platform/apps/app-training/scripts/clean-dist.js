@@ -124,13 +124,21 @@ const LOGIN_HTML = `<!DOCTYPE html>
       color: #c0392b;
       font-size: 14px;
     }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+    }
   </style>
 </head>
 <body>
   <div class="card">
     <img class="logo" src="/assets/dpg_brand_mark_color.svg" alt="Deaf Pathway Global logo" />
     <p class="title">Login Portal</p>
-    <form id="form" style="display:flex;flex-direction:column;align-items:center;gap:16px;width:100%">
+    <form id="form" class="form">
       <input id="key" class="input" type="text" placeholder="Enter Access Key" autocomplete="off" />
       <button id="btn" class="btn" type="submit">Enter</button>
       <p id="error" class="error">Invalid key. Please try again.</p>
@@ -148,6 +156,7 @@ const INDEX_HTML = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta http-equiv="refresh" content="0;url=/login.html" />
   <title>Deaf Pathway Training</title>
 </head>
@@ -157,11 +166,41 @@ const INDEX_HTML = `<!DOCTYPE html>
 fs.writeFileSync(path.join(DIST, "index.html"), INDEX_HTML, "utf8");
 console.log("  wrote: index.html (redirect to login.html)");
 
-// ── 3. Strip empty rulesets and unsupported vendor prefixes from other pages ──
+// ── 3. Strip unsupported/problematic CSS from other pages ────────────────────
 function cleanHtml(content) {
+  // Empty RNW marker rulesets
   content = content.replace(/\[stylesheet-group="[^"]*"\]\{\}/g, "");
+
+  // Unsupported vendor prefixes
   content = content.replace(/-ms-text-size-adjust:[^;]+;/g, "");
-  content = content.replace(/\b(html|body|input[^{]*)\{\s*\}/g, "");
+  content = content.replace(/-webkit-text-size-adjust:[^;]+;/g, "");
+  content = content.replace(/-webkit-overflow-scrolling:[^;]+;/g, "");
+
+  // Vendor-prefixed appearance — keep only standard, deduplicate
+  content = content.replace(/-moz-appearance:[^;]+;/g, "");
+  content = content.replace(/-ms-appearance:[^;]+;/g, "");
+  // Replace -webkit-appearance only if no standard appearance already present in same rule
+  content = content.replace(/(-webkit-appearance:([^;]+);)(appearance:\2;)?/g, "appearance:$2;");
+  // Remove duplicate appearance declarations in same rule
+  content = content.replace(/(appearance:[^;]+;)(appearance:[^;]+;)/g, "$1");
+
+  // Unknown/unsupported properties
+  content = content.replace(/border-curve:[^;]+;/g, "");
+  content = content.replace(/forced-color-adjust:[^;]+;/g, "");
+
+  // Remove inline styles from RNW body markup (the two style= attributes)
+  content = content.replace(/ style="position:absolute;left:0;right:0;top:0;bottom:0;pointer-events:none;visibility:hidden"/g, "");
+  content = content.replace(/ style="background-color:rgba\(242,242,242,1\.00\);display:flex"/g, "");
+
+  // Leftover empty rules after stripping
+  content = content.replace(/[\w.:>*-]+\{(\s*)\}/g, "");
+
+  // Remove blank lines left by stripped rules (inside <style> blocks)
+  content = content.replace(/(<style[^>]*>)([\s\S]*?)(<\/style>)/g, (_, open, body, close) => {
+    const cleaned = body.replace(/^\s*\n/gm, "");
+    return open + cleaned + close;
+  });
+
   return content;
 }
 

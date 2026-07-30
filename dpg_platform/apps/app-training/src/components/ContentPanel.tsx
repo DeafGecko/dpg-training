@@ -252,21 +252,33 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
     </View>
   );
 
+  const getVimeoThumbnailUrl = (source: string): string | null => {
+    const match = source.match(/vimeo\.com\/(\d+)/);
+    if (!match) return null;
+    return `https://vumbnail.com/${match[1]}.jpg`;
+  };
+
   const VideoThumb = ({ source }: { source: string }) => {
     const [uri, setUri] = useState<string | null>(null);
-    const isVimeo = !!getVimeoEmbedUrl(source);
+    const vimeoThumb = getVimeoThumbnailUrl(source);
+
     useEffect(() => {
-      if (isVimeo) return;
+      if (vimeoThumb) {
+        setUri(vimeoThumb);
+        return;
+      }
+      // Native only — no-op on web
       VideoThumbnails.getThumbnailAsync(source, { time: 0 })
         .then((r) => setUri(r.uri))
         .catch(() => {});
     }, [source]);
+
     return (
       <View style={[styles.thumbnailMedia, styles.thumbnailVideo]}>
         {uri ? (
           <Image source={{ uri }} style={StyleSheet.absoluteFill} resizeMode="cover" />
         ) : null}
-        <Text style={styles.thumbnailVideoIcon}>▶</Text>
+        {!uri && <Text style={styles.thumbnailVideoIcon}>▶</Text>}
       </View>
     );
   };

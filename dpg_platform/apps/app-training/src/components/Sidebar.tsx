@@ -1,26 +1,42 @@
 import { Contrast, LogOut, Moon, Settings, Sun } from "lucide-react-native";
 import { useState } from "react";
 import {
-  Modal,
-  Pressable,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+    Modal,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import DeafPathwayLogo from "../../assets/icons/deafpathway_colorblack.svg";
 import DeafPathwayLogoDark from "../../assets/icons/dpg-darkmode.svg";
 import DeafPathwayLogoHighContrast from "../../assets/icons/dpg-highcontrast_mode.svg";
+import EstherIcon from "../../assets/icons/topics/B-17/17.000.000-000.svg";
 import JesusIcon from "../../assets/icons/topics/T-01/555-jesus.svg";
 import ChurchIcon from "../../assets/icons/topics/T-02/555-church.svg";
 import MissionIcon from "../../assets/icons/topics/T-03/555-mission.svg";
-import EstherIcon from "../../assets/icons/topics/B-17/17.000.000-000.svg";
 import { ThemeType } from "../hooks/use-theme";
 
-export const ALL_TOPICS: { id: string; line1: string; line2: string; Icon: any }[] = [
+export const ALL_TOPICS: {
+  id: string;
+  line1: string;
+  line2: string;
+  Icon: any;
+}[] = [
   { id: "T-01", line1: "Jesus", line2: "Foundation Stories", Icon: JesusIcon },
-  { id: "T-02", line1: "Church", line2: "Foundation Stories", Icon: ChurchIcon },
-  { id: "T-03", line1: "Mission", line2: "Foundation Stories", Icon: MissionIcon },
+  {
+    id: "T-02",
+    line1: "Church",
+    line2: "Foundation Stories",
+    Icon: ChurchIcon,
+  },
+  {
+    id: "T-03",
+    line1: "Mission",
+    line2: "Foundation Stories",
+    Icon: MissionIcon,
+  },
   { id: "B-17", line1: "Esther", line2: "Story Set", Icon: EstherIcon },
 ];
 
@@ -99,7 +115,11 @@ export default function Sidebar({
       </View>
 
       {/* Topic buttons */}
-      <View style={{ flex: 1 }}>
+      <ScrollView
+        style={styles.topicScroll}
+        contentContainerStyle={styles.topicScrollContent}
+        showsVerticalScrollIndicator
+      >
         {topics.map(({ id, line1, line2, Icon }) => {
           const isActive = activeTopic === id;
 
@@ -114,7 +134,8 @@ export default function Sidebar({
                   styles.iconWrapper,
                   isActive && styles.iconWrapperActive,
                   isActive && {
-                    borderColor: theme === "highContrast" ? "#FFFF00" : "#b2a426",
+                    borderColor:
+                      theme === "highContrast" ? "#FFFF00" : "#b2a426",
                     borderWidth: 4,
                   },
                 ]}
@@ -144,7 +165,7 @@ export default function Sidebar({
             </Pressable>
           );
         })}
-      </View>
+      </ScrollView>
 
       {/* Settings button at bottom */}
       <Pressable
@@ -254,6 +275,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 18,
     paddingHorizontal: 16,
+  },
+  topicScroll: {
+    flex: 1,
+    minHeight: 0,
+  },
+  topicScrollContent: {
+    flexGrow: 1,
+    paddingBottom: 12,
   },
   topicRowActive: {},
   iconWrapper: {
