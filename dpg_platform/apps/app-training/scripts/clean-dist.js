@@ -204,20 +204,4 @@ function cleanHtml(content) {
   return content;
 }
 
-const otherHtml = fs
-  .readdirSync(DIST)
-  .filter((f) => f.endsWith(".html") && f !== "login.html")
-  .map((f) => path.join(DIST, f));
-
-let cleaned = 0;
-for (const file of otherHtml) {
-  const original = fs.readFileSync(file, "utf8");
-  const result = cleanHtml(original);
-  if (result !== original) {
-    fs.writeFileSync(file, result, "utf8");
-    console.log(`  cleaned: ${path.basename(file)}`);
-    cleaned++;
-  }
-}
-
-console.log(`clean-dist: login.html replaced + ${cleaned} other file(s) patched.`);
+console.log("clean-dist: login.html replaced.");
