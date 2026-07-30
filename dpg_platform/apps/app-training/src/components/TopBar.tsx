@@ -1,49 +1,49 @@
 import React from "react";
 import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  useWindowDimensions,
-  View,
-  Text,
+    Image,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    useWindowDimensions,
+    View,
 } from "react-native";
 import { SvgProps } from "react-native-svg";
 import DpgHandsWhite from "../../assets/icons/dpg-hands-white.svg";
 
 // T-01 Jesus
-import TwoHouses    from "../../assets/icons/topics/T-01/two_houses.svg";
-import Fed5000      from "../../assets/icons/topics/T-01/5000_fed.svg";
+import Fed5000 from "../../assets/icons/topics/T-01/5000_fed.svg";
+import LazarusLive from "../../assets/icons/topics/T-01/lazarus_live.svg";
+import OneWay from "../../assets/icons/topics/T-01/one_way.svg";
 import ShepherdWolf from "../../assets/icons/topics/T-01/shepherd_wolf.svg";
-import LazarusLive  from "../../assets/icons/topics/T-01/lazarus_live.svg";
-import OneWay       from "../../assets/icons/topics/T-01/one_way.svg";
+import TwoHouses from "../../assets/icons/topics/T-01/two_houses.svg";
 import VineBranches from "../../assets/icons/topics/T-01/vine_branches.svg";
 
 // T-02 Church
-import JesusBaptized    from "../../assets/icons/topics/T-02/jesus_baptized.svg";
-import SatanTempt       from "../../assets/icons/topics/T-02/satan_tempt.svg";
 import GivingSacrifices from "../../assets/icons/topics/T-02/giving_sacrifices.svg";
-import LordSupper       from "../../assets/icons/topics/T-02/lord_supper.svg";
-import JesusPray        from "../../assets/icons/topics/T-02/jesus_pray.svg";
+import JesusBaptized from "../../assets/icons/topics/T-02/jesus_baptized.svg";
+import JesusPray from "../../assets/icons/topics/T-02/jesus_pray.svg";
+import LordSupper from "../../assets/icons/topics/T-02/lord_supper.svg";
+import SatanTempt from "../../assets/icons/topics/T-02/satan_tempt.svg";
 
 // T-03 Mission
+import Send12 from "../../assets/icons/topics/T-03/12_send.svg";
+import Talents521 from "../../assets/icons/topics/T-03/5•2•1_talents.svg";
 import GreatCommission from "../../assets/icons/topics/T-03/great_commission.svg";
-import Warning         from "../../assets/icons/topics/T-03/warning.svg";
-import SaltLight       from "../../assets/icons/topics/T-03/salt_light.svg";
-import Send12          from "../../assets/icons/topics/T-03/12_send.svg";
-import Talents521      from "../../assets/icons/topics/T-03/5•2•1_talents.svg";
+import SaltLight from "../../assets/icons/topics/T-03/salt_light.svg";
+import Warning from "../../assets/icons/topics/T-03/warning.svg";
 
 // B-17 Esther (PNG)
 const ESTHER_PNG: Record<string, any> = {
-  "B-17-1":  require("../../assets/icons/topics/B-17/17.001.001-009.png"),
-  "B-17-2":  require("../../assets/icons/topics/B-17/17.001.010-012.png"),
-  "B-17-3":  require("../../assets/icons/topics/B-17/17.001.013-022.png"),
-  "B-17-4":  require("../../assets/icons/topics/B-17/17.002.001-004.png"),
-  "B-17-5":  require("../../assets/icons/topics/B-17/17.002.005-011.png"),
-  "B-17-6":  require("../../assets/icons/topics/B-17/17.002.012-014.png"),
-  "B-17-7":  require("../../assets/icons/topics/B-17/17.002.015-018.png"),
-  "B-17-8":  require("../../assets/icons/topics/B-17/17.002.019-023.png"),
-  "B-17-9":  require("../../assets/icons/topics/B-17/17.003.001-006.png"),
+  "B-17-1": require("../../assets/icons/topics/B-17/17.001.001-009.png"),
+  "B-17-2": require("../../assets/icons/topics/B-17/17.001.010-012.png"),
+  "B-17-3": require("../../assets/icons/topics/B-17/17.001.013-022.png"),
+  "B-17-4": require("../../assets/icons/topics/B-17/17.002.001-004.png"),
+  "B-17-5": require("../../assets/icons/topics/B-17/17.002.005-011.png"),
+  "B-17-6": require("../../assets/icons/topics/B-17/17.002.012-014.png"),
+  "B-17-7": require("../../assets/icons/topics/B-17/17.002.015-018.png"),
+  "B-17-8": require("../../assets/icons/topics/B-17/17.002.019-023.png"),
+  "B-17-9": require("../../assets/icons/topics/B-17/17.003.001-006.png"),
   "B-17-10": require("../../assets/icons/topics/B-17/17.003.007-011.png"),
   "B-17-11": require("../../assets/icons/topics/B-17/17.003.012-015.png"),
   "B-17-12": require("../../assets/icons/topics/B-17/17.004.001-003.png"),
@@ -104,11 +104,24 @@ type TopBarProps = {
 
 const MOBILE_BREAKPOINT = 768;
 
-export default function TopBar({ stories = [], onStorySelect, activeStory, colors, theme, onHamburgerPress }: TopBarProps) {
+export default function TopBar({
+  stories = [],
+  onStorySelect,
+  activeStory,
+  colors,
+  theme,
+  onHamburgerPress,
+}: TopBarProps) {
   const { width } = useWindowDimensions();
   const isMobile = width < MOBILE_BREAKPOINT;
 
-  const StoryIcons = ({ iconSize, horizontal }: { iconSize: number; horizontal: boolean }) => (
+  const StoryIcons = ({
+    iconSize,
+    horizontal,
+  }: {
+    iconSize: number;
+    horizontal: boolean;
+  }) => (
     <>
       {stories.map((story) => {
         const isSelected = activeStory?.story_id === story.story_id;
@@ -125,9 +138,15 @@ export default function TopBar({ stories = [], onStorySelect, activeStory, color
                 height: iconSize,
                 borderRadius: iconSize / 2,
                 borderColor: isSelected
-                  ? theme === "highContrast" ? "#FFFF00" : "#b2a426"
+                  ? theme === "highContrast"
+                    ? "#FFFF00"
+                    : "#b2a426"
                   : "#333333",
-                borderWidth: isSelected ? (theme === "highContrast" ? 5 : 4) : 2,
+                borderWidth: isSelected
+                  ? theme === "highContrast"
+                    ? 5
+                    : 4
+                  : 2,
                 opacity: !isSelected && !!activeStory ? 0.35 : 1,
                 marginHorizontal: horizontal ? 4 : 5,
               },
@@ -135,7 +154,11 @@ export default function TopBar({ stories = [], onStorySelect, activeStory, color
             onPress={() => onStorySelect(story)}
           >
             {pngSource ? (
-              <Image source={pngSource} style={{ width: iconSize, height: iconSize }} resizeMode="cover" />
+              <Image
+                source={pngSource}
+                style={{ width: iconSize, height: iconSize }}
+                resizeMode="cover"
+              />
             ) : SvgIcon ? (
               <SvgIcon width={iconSize} height={iconSize} />
             ) : (
@@ -164,7 +187,7 @@ export default function TopBar({ stories = [], onStorySelect, activeStory, color
             <Text style={styles.hamburgerIcon}>☰</Text>
           </TouchableOpacity>
 
-          <View style={[styles.mobileLogoWrap, { pointerEvents: "none" }]}>
+          <View pointerEvents="none" style={styles.mobileLogoWrap}>
             <View style={styles.mobileLogoBox}>
               <DpgHandsWhite width={36} height={36} />
             </View>
@@ -173,7 +196,12 @@ export default function TopBar({ stories = [], onStorySelect, activeStory, color
 
         {/* Story icons row below the blue bar */}
         {stories.length > 0 && (
-          <View style={[styles.mobileIconRow, { backgroundColor: colors.backgroundElement ?? "#e8e8e8" }]}>
+          <View
+            style={[
+              styles.mobileIconRow,
+              { backgroundColor: colors.backgroundElement ?? "#e8e8e8" },
+            ]}
+          >
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
@@ -189,7 +217,12 @@ export default function TopBar({ stories = [], onStorySelect, activeStory, color
 
   // ── DESKTOP ──
   return (
-    <View style={[styles.desktopHeader, { backgroundColor: theme === "highContrast" ? "#cccccc" : "#4a6b7c" }]}>
+    <View
+      style={[
+        styles.desktopHeader,
+        { backgroundColor: theme === "highContrast" ? "#cccccc" : "#4a6b7c" },
+      ]}
+    >
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}

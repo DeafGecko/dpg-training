@@ -361,7 +361,6 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 10,
     borderRadius: 8,
-    gap: 12,
   },
   themeRowActive: {
     backgroundColor: "#f0f6f9",
@@ -369,6 +368,7 @@ const styles = StyleSheet.create({
   themeLabel: {
     flex: 1,
     fontSize: 14,
+    marginLeft: 12,
     color: "#555",
   },
   themeLabelActive: {
@@ -388,11 +388,11 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: "#eee",
     marginTop: 8,
-    gap: 12,
   },
   logoutLabel: {
     flex: 1,
     fontSize: 14,
+    marginLeft: 12,
     color: "#c0392b",
     fontWeight: "600",
   },

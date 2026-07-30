@@ -1,17 +1,29 @@
-import { useState, useMemo } from "react";
-import { StyleSheet, Text, TextInput, View, TouchableOpacity } from "react-native";
 import { router } from "expo-router";
-import rawData from "../../data/Translation_camp.json";
+import { useMemo, useState } from "react";
+import {
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+} from "react-native";
 import DpgLogo from "../../assets/icons/dpg_brand_mark_color.svg";
+import rawData from "../../data/Translation_camp.json";
+import { setAuthSession } from "../utils/authSession";
 
-const normalizeAccessKey = (value: string) => value.replace(/[\u201c\u201d\u201e\u2018\u2019'"]/g, "").trim();
+const normalizeAccessKey = (value: string) =>
+  value.replace(/[\u201c\u201d\u201e\u2018\u2019'"]/g, "").trim();
 
 const collectAccessKeys = (data: any[]) => {
   const keys = new Set<string>();
   data.forEach((story) => {
     const rawKeys = story["access-keys"];
     if (rawKeys) {
-      rawKeys.split(",").map(normalizeAccessKey).filter(Boolean).forEach((k: string) => keys.add(k));
+      rawKeys
+        .split(",")
+        .map(normalizeAccessKey)
+        .filter(Boolean)
+        .forEach((k: string) => keys.add(k));
     }
   });
   return keys;
@@ -27,10 +39,7 @@ export default function Login() {
 
     if (validAccessKeys.has(normalized)) {
       setHasError(false);
-      if (typeof window !== "undefined") {
-        sessionStorage.setItem("auth", "1");
-        sessionStorage.setItem("accessKey", normalized);
-      }
+      setAuthSession(normalized);
       router.replace("/training");
     } else {
       setHasError(true);
@@ -49,7 +58,10 @@ export default function Login() {
         autoCapitalize="characters"
         onSubmitEditing={submitAccessKey}
       />
-      <TouchableOpacity style={[styles.button, hasError && styles.buttonError]} onPress={submitAccessKey}>
+      <TouchableOpacity
+        style={[styles.button, hasError && styles.buttonError]}
+        onPress={submitAccessKey}
+      >
         <Text style={styles.buttonText}>Enter</Text>
       </TouchableOpacity>
       {hasError && (

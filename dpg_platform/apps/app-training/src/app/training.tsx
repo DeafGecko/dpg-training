@@ -1,11 +1,19 @@
-import { useState, useRef, useEffect } from "react";
 import { router } from "expo-router";
-import { Animated, Modal, Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import {
+    Animated,
+    Modal,
+    Pressable,
+    StyleSheet,
+    useWindowDimensions,
+    View,
+} from "react-native";
+import rawData from "../../data/Translation_camp.json";
 import ContentPanel from "../components/ContentPanel";
 import Sidebar, { ALL_TOPICS } from "../components/Sidebar";
 import TopBar from "../components/TopBar";
 import { useThemeManager } from "../hooks/use-theme";
-import rawData from "../../data/Translation_camp.json";
+import { clearAuthSession, getAuthSession } from "../utils/authSession";
 
 const normalizeKey = (v: string) => v.replace(/[“”„‘’']/g, "").trim();
 
@@ -24,7 +32,8 @@ const MOBILE_BREAKPOINT = 768;
 const DRAWER_WIDTH = 260;
 
 export default function Training() {
-  const [authed, setAuthed] = useState<boolean | null>(null);
+  const [authed, setAuthed] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
   const { colors, theme, setTheme } = useThemeManager();
   const [activeTopic, setActiveTopic] = useState<string | null>(null);
   const [activeStory, setActiveStory] = useState<any>(null);
@@ -37,13 +46,16 @@ export default function Training() {
   const isLandscape = width > height;
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (!sessionStorage.getItem("auth")) {
-        router.replace("/login");
-      } else {
-        setAuthed(true);
-      }
+    const session = getAuthSession();
+    if (!session.auth) {
+      setAuthed(false);
+      setAuthChecked(true);
+      router.replace("/login");
+      return;
     }
+
+    setAuthed(true);
+    setAuthChecked(true);
   }, []);
 
   useEffect(() => {
@@ -54,11 +66,27 @@ export default function Training() {
     }
   }, [isMobile]);
 
-  if (!authed) return null;
-
-  const accessKey = typeof window !== "undefined" ? sessionStorage.getItem("accessKey") ?? "" : "";
+  const accessKey = getAuthSession().accessKey;
   const unlockedTopics = getUnlockedTopics(accessKey);
-  const topicStories = activeTopic ? rawData.filter((s: any) => s.theme_id === activeTopic) : [];
+  const topicStories = activeTopic
+    ? rawData.filter((s: any) => s.theme_id === activeTopic)
+    : [];
+
+  useEffect(() => {
+    if (!activeTopic && unlockedTopics.length > 0) {
+      setActiveTopic(unlockedTopics[0].id);
+    }
+  }, [activeTopic, unlockedTopics]);
+
+  if (!authChecked) {
+    return (
+      <View style={[styles.root, { backgroundColor: colors.background }]} />
+    );
+  }
+
+  if (!authed) {
+    return null;
+  }
 
   const openDrawer = () => {
     setDrawerMounted(true);
@@ -89,7 +117,7 @@ export default function Training() {
   };
 
   const handleLogout = () => {
-    sessionStorage.clear();
+    clearAuthSession();
     router.replace("/login");
   };
 
@@ -113,13 +141,21 @@ export default function Training() {
 
       {/* Mobile: left-to-right slide drawer */}
       {isMobile && drawerMounted && (
-        <Modal visible={drawerOpen} transparent animationType="none" onRequestClose={closeDrawer}>
+        <Modal
+          visible={drawerOpen}
+          transparent
+          animationType="none"
+          onRequestClose={closeDrawer}
+        >
           <View style={styles.drawerOverlay}>
             {/* Dim backdrop */}
             <Pressable style={StyleSheet.absoluteFill} onPress={closeDrawer} />
             {/* Sliding panel */}
             <Animated.View
-              style={[styles.drawerSheet, { transform: [{ translateX: slideAnim }] }]}
+              style={[
+                styles.drawerSheet,
+                { transform: [{ translateX: slideAnim }] },
+              ]}
             >
               {sidebar}
             </Animated.View>

@@ -1,19 +1,19 @@
-import { VideoView, useVideoPlayer } from "expo-video";
+import { useVideoPlayer, VideoView } from "expo-video";
 import * as VideoThumbnails from "expo-video-thumbnails";
 import { useEffect, useRef, useState } from "react";
 import {
-  Image,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  useWindowDimensions,
-  View,
+    Image,
+    NativeScrollEvent,
+    NativeSyntheticEvent,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    useWindowDimensions,
+    View,
 } from "react-native";
-import { parseMediaString } from "../utils/dataHelper";
 import { ThemeType } from "../hooks/use-theme";
+import { parseMediaString } from "../utils/dataHelper";
 
 type Story = {
   story_title: string;
@@ -52,7 +52,14 @@ const isExternalLink = (url: string) =>
 
 function NativeVideoItem({ source, style }: { source: string; style: any }) {
   const player = useVideoPlayer(source);
-  return <VideoView player={player} style={style} nativeControls contentFit="contain" />;
+  return (
+    <VideoView
+      player={player}
+      style={style}
+      nativeControls
+      contentFit="contain"
+    />
+  );
 }
 
 function VideoItem({ source, style }: { source: string; style: any }) {
@@ -74,13 +81,37 @@ function VideoItem({ source, style }: { source: string; style: any }) {
 
   if (isExternalLink(source)) {
     return (
-      <View style={[style, { justifyContent: "center", alignItems: "center", backgroundColor: "#1a1a2e" }]}>
-        <Text style={{ color: "#fff", fontSize: 13, marginBottom: 12, textAlign: "center", paddingHorizontal: 16 }}>
+      <View
+        style={[
+          style,
+          {
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#1a1a2e",
+          },
+        ]}
+      >
+        <Text
+          style={{
+            color: "#fff",
+            fontSize: 13,
+            marginBottom: 12,
+            textAlign: "center",
+            paddingHorizontal: 16,
+          }}
+        >
           This video is hosted externally
         </Text>
         <TouchableOpacity
-          onPress={() => { if (typeof window !== "undefined") window.open(source, "_blank"); }}
-          style={{ backgroundColor: "#b2a426", paddingVertical: 10, paddingHorizontal: 20, borderRadius: 8 }}
+          onPress={() => {
+            if (typeof window !== "undefined") window.open(source, "_blank");
+          }}
+          style={{
+            backgroundColor: "#b2a426",
+            paddingVertical: 10,
+            paddingHorizontal: 20,
+            borderRadius: 8,
+          }}
         >
           <Text style={{ color: "#fff", fontWeight: "700" }}>Open Video</Text>
         </TouchableOpacity>
@@ -91,17 +122,27 @@ function VideoItem({ source, style }: { source: string; style: any }) {
   return <NativeVideoItem source={source} style={style} />;
 }
 
-export default function ContentPanel({ story, colors, theme }: { story: Story | null; colors: any; theme: ThemeType }) {
+export default function ContentPanel({
+  story,
+  colors,
+  theme,
+}: {
+  story: Story | null;
+  colors: any;
+  theme: ThemeType;
+}) {
   const [slideIndex, setSlideIndex] = useState(0);
   const [pagerHeight, setPagerHeight] = useState(0);
-  const [mode, setMode] = useState<"storyboard" | "signRoots" | "exegesis">("storyboard");
+  const [mode, setMode] = useState<"storyboard" | "signRoots" | "exegesis">(
+    "storyboard",
+  );
   const { width, height } = useWindowDimensions();
   const isMobile = width < MOBILE_BREAKPOINT;
   const isLandscape = width > height;
   const swipeRef = useRef<ScrollView>(null);
   const thumbRef = useRef<ScrollView>(null);
 
-// Parse Storyboard and Sign Roots videos dynamically as URLs from the story object
+  // Parse Storyboard and Sign Roots videos dynamically as URLs from the story object
   const storyboardSlides = parseMediaString(story?.storyboard_videos)
     .map((url) => formatDropboxUrl(url))
     .filter(Boolean)
@@ -117,7 +158,7 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
     .filter(Boolean)
     .map((source) => ({ type: "video" as const, source }));
 
-// Automatically default or fallback mode if current mode has no slides
+  // Automatically default or fallback mode if current mode has no slides
   useEffect(() => {
     if (mode === "storyboard" && storyboardSlides.length === 0) {
       if (signRootsSlides.length > 0) setMode("signRoots");
@@ -131,7 +172,7 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
     }
   }, [story]);
 
-// Reset to first slide when story or mode changes
+  // Reset to first slide when story or mode changes
   useEffect(() => {
     setSlideIndex(0);
     swipeRef.current?.scrollTo({ x: 0, animated: false });
@@ -140,13 +181,34 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
 
   if (!story) {
     return (
-      <View style={[styles.container, { backgroundColor: theme === "light" ? "#e8e8e8" : theme === "dark" ? colors.backgroundElement : colors.background, justifyContent: "center", alignItems: "center" }]}>
-        <Text style={{ color: "#555555", fontSize: 16 }}>Select a story from the top bar.</Text>
+      <View
+        style={[
+          styles.container,
+          {
+            backgroundColor:
+              theme === "light"
+                ? "#e8e8e8"
+                : theme === "dark"
+                  ? colors.backgroundElement
+                  : colors.background,
+            justifyContent: "center",
+            alignItems: "center",
+          },
+        ]}
+      >
+        <Text style={{ color: "#555555", fontSize: 16 }}>
+          Select a story from the top bar.
+        </Text>
       </View>
     );
   }
 
-  const slides = mode === "storyboard" ? storyboardSlides : mode === "signRoots" ? signRootsSlides : exegesisSlides;
+  const slides =
+    mode === "storyboard"
+      ? storyboardSlides
+      : mode === "signRoots"
+        ? signRootsSlides
+        : exegesisSlides;
   const hasStoryboard = storyboardSlides.length > 0;
   const hasSignRoots = signRootsSlides.length > 0;
 
@@ -162,8 +224,11 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
 
     thumbRef.current?.scrollTo(
       isMobile
-        ? { x: index * (THUMB_W + 10) - width / 2 + THUMB_W / 2, animated: true }
-        : { y: index * (THUMB_H + 10) - 100, animated: true }
+        ? {
+            x: index * (THUMB_W + 10) - width / 2 + THUMB_W / 2,
+            animated: true,
+          }
+        : { y: index * (THUMB_H + 10) - 100, animated: true },
     );
   };
 
@@ -171,18 +236,31 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
     const newIndex = Math.round(e.nativeEvent.contentOffset.x / width);
     if (newIndex !== slideIndex) {
       setSlideIndex(newIndex);
-      thumbRef.current?.scrollTo({ x: newIndex * (THUMB_W + 10) - width / 2 + THUMB_W / 2, animated: true });
+      thumbRef.current?.scrollTo({
+        x: newIndex * (THUMB_W + 10) - width / 2 + THUMB_W / 2,
+        animated: true,
+      });
     }
   };
 
   const reference = [story["book-bible"], story.ref].filter(Boolean).join(" ");
-  const titleColor = theme === "highContrast" ? "#FFFF00" : theme === "dark" ? "#c8c8c8" : "#1a3a4a";
-  const activeColor = theme === "highContrast" ? "#FFFF00" : theme === "dark" ? "#2a4a5a" : "#4a6b7c";
+  const titleColor =
+    theme === "highContrast"
+      ? "#FFFF00"
+      : theme === "dark"
+        ? "#c8c8c8"
+        : "#1a3a4a";
+  const activeColor =
+    theme === "highContrast"
+      ? "#FFFF00"
+      : theme === "dark"
+        ? "#2a4a5a"
+        : "#4a6b7c";
   const activeTextColor = theme === "highContrast" ? "#000" : "#fff";
   const outlineBorderColor = theme === "dark" ? "#777777" : colors.text;
   const outlineTextColor = theme === "dark" ? "#c8c8c8" : colors.text;
 
-// ── Mode toggle buttons (Exegesis | Storyboard | Sign Roots) ──
+  // ── Mode toggle buttons (Exegesis | Storyboard | Sign Roots) ──
   const ModeButtons = () => (
     <View style={styles.headerButtons}>
       {exegesisSlides.length > 0 && (
@@ -195,7 +273,14 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
               : [styles.headerBtnOutline, { borderColor: outlineBorderColor }],
           ]}
         >
-          <Text style={[styles.headerBtnText, { color: mode === "exegesis" ? activeTextColor : outlineTextColor }]}>
+          <Text
+            style={[
+              styles.headerBtnText,
+              {
+                color: mode === "exegesis" ? activeTextColor : outlineTextColor,
+              },
+            ]}
+          >
             Exegesis
           </Text>
         </TouchableOpacity>
@@ -210,7 +295,15 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
               : [styles.headerBtnOutline, { borderColor: outlineBorderColor }],
           ]}
         >
-          <Text style={[styles.headerBtnText, { color: mode === "storyboard" ? activeTextColor : outlineTextColor }]}>
+          <Text
+            style={[
+              styles.headerBtnText,
+              {
+                color:
+                  mode === "storyboard" ? activeTextColor : outlineTextColor,
+              },
+            ]}
+          >
             Storyboard
           </Text>
         </TouchableOpacity>
@@ -225,7 +318,15 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
               : [styles.headerBtnOutline, { borderColor: outlineBorderColor }],
           ]}
         >
-          <Text style={[styles.headerBtnText, { color: mode === "signRoots" ? activeTextColor : outlineTextColor }]}>
+          <Text
+            style={[
+              styles.headerBtnText,
+              {
+                color:
+                  mode === "signRoots" ? activeTextColor : outlineTextColor,
+              },
+            ]}
+          >
             Sign Roots
           </Text>
         </TouchableOpacity>
@@ -243,7 +344,10 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
         <Text style={styles.arrowText}>‹</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={[styles.arrowBtn, { opacity: slideIndex === total - 1 ? 0.3 : 1 }]}
+        style={[
+          styles.arrowBtn,
+          { opacity: slideIndex === total - 1 ? 0.3 : 1 },
+        ]}
         onPress={() => goTo(slideIndex + 1)}
         disabled={slideIndex === total - 1}
       >
@@ -276,21 +380,39 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
     return (
       <View style={[styles.thumbnailMedia, styles.thumbnailVideo]}>
         {uri ? (
-          <Image source={{ uri }} style={StyleSheet.absoluteFill} resizeMode="cover" />
+          <Image
+            source={{ uri }}
+            style={StyleSheet.absoluteFill}
+            resizeMode="cover"
+          />
         ) : null}
         {!uri && <Text style={styles.thumbnailVideoIcon}>▶</Text>}
       </View>
     );
   };
 
-  const ThumbItem = ({ item, i }: { item: { type: "video"; source: string }; i: number }) => (
+  const ThumbItem = ({
+    item,
+    i,
+  }: {
+    item: { type: "video"; source: string };
+    i: number;
+  }) => (
     <TouchableOpacity
       onPress={() => goTo(i)}
       style={[
         styles.thumbnail,
-        { borderColor: theme === "highContrast" ? "#FFFF00" : theme === "dark" ? "#555555" : "#aaaaaa" },
+        {
+          borderColor:
+            theme === "highContrast"
+              ? "#FFFF00"
+              : theme === "dark"
+                ? "#555555"
+                : "#aaaaaa",
+        },
         i === slideIndex && styles.thumbnailActive,
-        i === slideIndex && theme === "highContrast" && { borderColor: "#FFFF00" },
+        i === slideIndex &&
+          theme === "highContrast" && { borderColor: "#FFFF00" },
         i !== slideIndex && { opacity: 0.35 },
       ]}
     >
@@ -298,17 +420,29 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
     </TouchableOpacity>
   );
 
-// ══════════════════════════════════════════
-// MOBILE — portrait
-// ══════════════════════════════════════════
+  // ══════════════════════════════════════════
+  // MOBILE — portrait
+  // ══════════════════════════════════════════
   if (isMobile && !isLandscape) {
     return (
       <View style={[styles.container, { backgroundColor: "#111" }]}>
-        <View style={[styles.headerBar, { backgroundColor: colors.backgroundElement ?? "#d6d4a8" }]}>
+        <View
+          style={[
+            styles.headerBar,
+            { backgroundColor: colors.backgroundElement ?? "#d6d4a8" },
+          ]}
+        >
           <View style={styles.headerLeft}>
-            <Text style={[styles.storyTitle, { color: titleColor }]} numberOfLines={1}>{story.story_title}</Text>
+            <Text
+              style={[styles.storyTitle, { color: titleColor }]}
+              numberOfLines={1}
+            >
+              {story.story_title}
+            </Text>
             {reference ? (
-              <Text style={[styles.storyRef, { color: titleColor }]}>{reference}</Text>
+              <Text style={[styles.storyRef, { color: titleColor }]}>
+                {reference}
+              </Text>
             ) : null}
           </View>
           <ModeButtons />
@@ -329,27 +463,54 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
               contentContainerStyle={{ backgroundColor: "#111" }}
             >
               {slides.map((item, i) => (
-                <View key={i} style={{ width, height: pagerHeight, justifyContent: "center", alignItems: "center", backgroundColor: "#111" }}>
-                  <VideoItem source={item.source} style={{ width, height: pagerHeight }} />
+                <View
+                  key={i}
+                  style={{
+                    width,
+                    height: pagerHeight,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    backgroundColor: "#111",
+                  }}
+                >
+                  <VideoItem
+                    source={item.source}
+                    style={{ width, height: pagerHeight }}
+                  />
                 </View>
               ))}
             </ScrollView>
           ) : (
-            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-              <Text style={{ color: "#888" }}>No media available for this mode.</Text>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text style={{ color: "#888" }}>
+                No media available for this mode.
+              </Text>
             </View>
           )}
         </View>
 
         {total > 1 && (
-          <View style={[styles.mobileThumbBar, { backgroundColor: colors.backgroundElement ?? "#1e1e1e" }]}>
+          <View
+            style={[
+              styles.mobileThumbBar,
+              { backgroundColor: colors.backgroundElement ?? "#1e1e1e" },
+            ]}
+          >
             <ScrollView
               ref={thumbRef}
               horizontal
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={styles.mobileThumbContent}
             >
-              {slides.map((item, i) => <ThumbItem key={i} item={item} i={i} />)}
+              {slides.map((item, i) => (
+                <ThumbItem key={i} item={item} i={i} />
+              ))}
             </ScrollView>
           </View>
         )}
@@ -357,9 +518,9 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
     );
   }
 
-// ══════════════════════════════════════════
-// MOBILE — landscape
-// ══════════════════════════════════════════
+  // ══════════════════════════════════════════
+  // MOBILE — landscape
+  // ══════════════════════════════════════════
   if (isMobile && isLandscape) {
     return (
       <View style={{ width, height, backgroundColor: "#000" }}>
@@ -373,7 +534,16 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
             style={StyleSheet.absoluteFill}
           >
             {slides.map((item, i) => (
-              <View key={i} style={{ width, height, justifyContent: "center", alignItems: "center", backgroundColor: "#000" }}>
+              <View
+                key={i}
+                style={{
+                  width,
+                  height,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "#000",
+                }}
+              >
                 <VideoItem source={item.source} style={{ width, height }} />
               </View>
             ))}
@@ -384,16 +554,25 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
     );
   }
 
-// ══════════════════════════════════════════
-// DESKTOP
-// ══════════════════════════════════════════
+  // ══════════════════════════════════════════
+  // DESKTOP
+  // ══════════════════════════════════════════
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <View style={[styles.headerBar, { backgroundColor: colors.backgroundElement ?? "#d6d4a8" }]}>
+      <View
+        style={[
+          styles.headerBar,
+          { backgroundColor: colors.backgroundElement ?? "#d6d4a8" },
+        ]}
+      >
         <View style={styles.headerLeft}>
-          <Text style={[styles.storyTitle, { color: titleColor }]}>{story.story_title}</Text>
+          <Text style={[styles.storyTitle, { color: titleColor }]}>
+            {story.story_title}
+          </Text>
           {reference ? (
-            <Text style={[styles.storyRef, { color: titleColor }]}>{reference}</Text>
+            <Text style={[styles.storyRef, { color: titleColor }]}>
+              {reference}
+            </Text>
           ) : null}
         </View>
         <ModeButtons />
@@ -402,10 +581,16 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
       <View style={styles.body}>
         <View style={[styles.mainViewer, { backgroundColor: "#333333" }]}>
           {currentItem?.type === "video" && (
-            <VideoItem key={currentItem.source} source={currentItem.source} style={styles.mainMedia} />
+            <VideoItem
+              key={currentItem.source}
+              source={currentItem.source}
+              style={styles.mainMedia}
+            />
           )}
           {total === 0 && (
-            <Text style={{ color: "#fff" }}>No media available for this view.</Text>
+            <Text style={{ color: "#fff" }}>
+              No media available for this view.
+            </Text>
           )}
           {total > 1 && <NavArrows />}
         </View>
@@ -413,11 +598,16 @@ export default function ContentPanel({ story, colors, theme }: { story: Story | 
         {total > 0 && (
           <ScrollView
             ref={thumbRef}
-            style={[styles.thumbnailStrip, { backgroundColor: colors.backgroundElement ?? "#d6d4a8" }]}
+            style={[
+              styles.thumbnailStrip,
+              { backgroundColor: colors.backgroundElement ?? "#d6d4a8" },
+            ]}
             contentContainerStyle={styles.thumbnailStripContent}
             showsVerticalScrollIndicator={false}
           >
-            {slides.map((item, i) => <ThumbItem key={i} item={item} i={i} />)}
+            {slides.map((item, i) => (
+              <ThumbItem key={i} item={item} i={i} />
+            ))}
           </ScrollView>
         )}
       </View>
@@ -437,41 +627,41 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 10,
   },
-  headerLeft: { 
-    flex: 1, 
-    marginRight: 12 
+  headerLeft: {
+    flex: 1,
+    marginRight: 12,
   },
-  storyTitle: { 
-    fontSize: 18, 
-    fontWeight: "700" 
+  storyTitle: {
+    fontSize: 18,
+    fontWeight: "700",
   },
-  storyRef: { 
-    fontSize: 13, 
-    opacity: 0.7, 
-    marginTop: 2 
+  storyRef: {
+    fontSize: 13,
+    opacity: 0.7,
+    marginTop: 2,
   },
-  headerButtons: { 
-    flexDirection: "row", 
-    gap: 8 
+  headerButtons: {
+    flexDirection: "row",
   },
-  headerBtn: { 
-    paddingHorizontal: 14, 
-    paddingVertical: 8, 
-    borderRadius: 6 
+  headerBtn: {
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 6,
+    marginLeft: 8,
   },
-  headerBtnOutline: { 
-    backgroundColor: "transparent", 
-    borderWidth: 1.5 
+  headerBtnOutline: {
+    backgroundColor: "transparent",
+    borderWidth: 1.5,
   },
-  headerBtnText: { 
-    color: "#fff", 
-    fontSize: 13, 
-    fontWeight: "600" 
+  headerBtnText: {
+    color: "#fff",
+    fontSize: 13,
+    fontWeight: "600",
   },
-  body: { 
-    flex: 1, 
-    flexDirection: "row", 
-    backgroundColor: "#333333" 
+  body: {
+    flex: 1,
+    flexDirection: "row",
+    backgroundColor: "#333333",
   },
   mainViewer: {
     flex: 1,
@@ -481,17 +671,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  mainMedia: { 
-    width: "100%", 
-    height: "100%", 
-    borderRadius: 8 
+  mainMedia: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 8,
   },
   arrowStack: {
     position: "absolute",
     bottom: 16,
     right: 16,
     flexDirection: "row",
-    gap: 8,
   },
   arrowBtn: {
     width: 44,
@@ -500,45 +689,47 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.3)",
     justifyContent: "center",
     alignItems: "center",
+    marginLeft: 8,
   },
-  arrowText: { 
-    color: "#fff", 
-    fontSize: 24, 
-    fontWeight: "700", 
-    lineHeight: 28 
+  arrowText: {
+    color: "#fff",
+    fontSize: 24,
+    fontWeight: "700",
+    lineHeight: 28,
   },
-  thumbnailStrip: { 
-    width: 110, 
-    flexShrink: 0, 
-    flexGrow: 0 
+  thumbnailStrip: {
+    width: 110,
+    flexShrink: 0,
+    flexGrow: 0,
   },
-  thumbnailStripContent: { 
-    alignItems: "center", 
-    paddingVertical: 8 
+  thumbnailStripContent: {
+    alignItems: "center",
+    paddingVertical: 8,
   },
   thumbnail: {
     marginBottom: 8,
+    marginRight: 8,
     borderRadius: 6,
     overflow: "hidden",
     borderWidth: 2,
     borderColor: "#aaaaaa",
   },
-  thumbnailActive: { 
-    borderColor: "#b2a426", 
-    borderWidth: 3 
+  thumbnailActive: {
+    borderColor: "#b2a426",
+    borderWidth: 3,
   },
-  thumbnailMedia: { 
-    width: THUMB_W, 
-    height: THUMB_H 
+  thumbnailMedia: {
+    width: THUMB_W,
+    height: THUMB_H,
   },
-  thumbnailVideo: { 
-    backgroundColor: "#222", 
-    justifyContent: "center", 
-    alignItems: "center" 
+  thumbnailVideo: {
+    backgroundColor: "#222",
+    justifyContent: "center",
+    alignItems: "center",
   },
-  thumbnailVideoIcon: { 
-    color: "#fff", 
-    fontSize: 20 
+  thumbnailVideoIcon: {
+    color: "#fff",
+    fontSize: 20,
   },
   mobileThumbBar: {
     height: THUMB_H + 20,
@@ -550,6 +741,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 6,
     flexDirection: "row",
-    gap: 8,
   },
 });
