@@ -1,12 +1,12 @@
 import { router } from "expo-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
-    Animated,
-    Modal,
-    Pressable,
-    StyleSheet,
-    useWindowDimensions,
-    View,
+  Animated,
+  Modal,
+  Pressable,
+  StyleSheet,
+  useWindowDimensions,
+  View,
 } from "react-native";
 import rawData from "../../data/Translation_camp.json";
 import ContentPanel from "../components/ContentPanel";
@@ -26,6 +26,18 @@ function getUnlockedTopics(accessKey: string) {
     if (keys.includes(accessKey)) unlockedIds.add(story.theme_id);
   });
   return ALL_TOPICS.filter((t) => unlockedIds.has(t.id));
+}
+
+function hasAnyMedia(story: any) {
+  return [
+    story?.storyboard_videos,
+    story?.sign_roots_videos,
+    story?.exegesis_slides,
+  ].some((value) => typeof value === "string" && value.trim().length > 0);
+}
+
+function getDefaultStory(stories: any[]) {
+  return stories.find((story) => hasAnyMedia(story)) ?? stories[0] ?? null;
 }
 
 const MOBILE_BREAKPOINT = 768;
@@ -68,15 +80,24 @@ export default function Training() {
 
   const accessKey = getAuthSession().accessKey;
   const unlockedTopics = getUnlockedTopics(accessKey);
-  const topicStories = activeTopic
-    ? rawData.filter((s: any) => s.theme_id === activeTopic)
-    : [];
+  const topicStories = useMemo(
+    () =>
+      activeTopic ? rawData.filter((s: any) => s.theme_id === activeTopic) : [],
+    [activeTopic],
+  );
 
   useEffect(() => {
     if (!activeTopic && unlockedTopics.length > 0) {
       setActiveTopic(unlockedTopics[0].id);
     }
   }, [activeTopic, unlockedTopics]);
+
+  useEffect(() => {
+    if (!activeTopic) return;
+    if (activeStory?.theme_id === activeTopic) return;
+
+    setActiveStory(getDefaultStory(topicStories));
+  }, [activeTopic, activeStory?.theme_id, topicStories]);
 
   if (!authChecked) {
     return (
@@ -112,7 +133,6 @@ export default function Training() {
 
   const handleTopicSelect = (topicId: string) => {
     setActiveTopic(topicId);
-    setActiveStory(null);
     if (isMobile) closeDrawer();
   };
 

@@ -100,7 +100,7 @@ function VideoItem({ source, style }: { source: string; style: any }) {
             paddingHorizontal: 16,
           }}
         >
-          This video is hosted externally
+// This video is hosted on an external platform. Tap the button below to open it in your browser.
         </Text>
         <TouchableOpacity
           onPress={() => {
@@ -356,21 +356,25 @@ export default function ContentPanel({
     </View>
   );
 
-  const getVimeoThumbnailUrl = (source: string): string | null => {
-    const match = source.match(/vimeo\.com\/(\d+)/);
-    if (!match) return null;
-    return `https://vumbnail.com/${match[1]}.jpg`;
-  };
-
   const VideoThumb = ({ source }: { source: string }) => {
     const [uri, setUri] = useState<string | null>(null);
-    const vimeoThumb = getVimeoThumbnailUrl(source);
 
     useEffect(() => {
-      if (vimeoThumb) {
-        setUri(vimeoThumb);
+      // Vimeo: use oEmbed API (supports private videos with hash)
+      const vimeoMatch = source.match(/vimeo\.com\/(\d+)(\/([a-f0-9]+))?/);
+      if (vimeoMatch) {
+        const id = vimeoMatch[1];
+        const hash = vimeoMatch[3];
+        const oembedUrl = hash
+          ? `https://vimeo.com/api/oembed.json?url=https://vimeo.com/${id}/${hash}&width=200`
+          : `https://vimeo.com/api/oembed.json?url=https://vimeo.com/${id}&width=200`;
+        fetch(oembedUrl)
+          .then((r) => r.json())
+          .then((data) => { if (data.thumbnail_url) setUri(data.thumbnail_url); })
+          .catch(() => {});
         return;
       }
+
       // Native only — no-op on web
       VideoThumbnails.getThumbnailAsync(source, { time: 0 })
         .then((r) => setUri(r.uri))
@@ -386,7 +390,11 @@ export default function ContentPanel({
             resizeMode="cover"
           />
         ) : null}
-        {!uri && <Text style={styles.thumbnailVideoIcon}>▶</Text>}
+        <View style={styles.thumbnailPlayOverlay}>
+          <View style={styles.thumbnailPlayCircle}>
+            <Text style={styles.thumbnailVideoIcon}>▶</Text>
+          </View>
+        </View>
       </View>
     );
   };
@@ -727,9 +735,23 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  thumbnailPlayOverlay: {
+    position: "absolute", top: 0, left: 0, right: 0, bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  thumbnailPlayCircle: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: "rgba(0,0,0,0.55)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   thumbnailVideoIcon: {
     color: "#fff",
-    fontSize: 20,
+    fontSize: 12,
+    marginLeft: 2,
   },
   mobileThumbBar: {
     height: THUMB_H + 20,

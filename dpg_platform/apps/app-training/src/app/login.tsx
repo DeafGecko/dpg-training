@@ -1,11 +1,12 @@
 import { router } from "expo-router";
+import { AlertCircle, LogIn } from "lucide-react-native";
 import { useMemo, useState } from "react";
 import {
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import DpgLogo from "../../assets/icons/dpg_brand_mark_color.svg";
 import rawData from "../../data/Translation_camp.json";
@@ -49,10 +50,14 @@ export default function Login() {
   return (
     <View style={styles.container}>
       <DpgLogo width={320} height={320} />
-      <Text style={styles.title}>Login Portal</Text>
+      <View style={styles.titleRow}>
+        <LogIn size={18} color="#46697C" />
+        <Text style={styles.title}>Login</Text>
+      </View>
       <TextInput
         style={styles.input}
         placeholder="Enter Access Key"
+        placeholderTextColor="#b0b0b0"
         value={enteredKey}
         onChangeText={setEnteredKey}
         autoCapitalize="characters"
@@ -65,7 +70,10 @@ export default function Login() {
         <Text style={styles.buttonText}>Enter</Text>
       </TouchableOpacity>
       {hasError && (
-        <Text style={styles.errorText}>Invalid key. Please try again.</Text>
+        <View style={styles.errorRow}>
+          <AlertCircle size={16} color="#c0392b" />
+          <Text style={styles.errorText}>Invalid key. Please try again.</Text>
+        </View>
       )}
     </View>
   );
@@ -78,12 +86,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#e2e2e2",
   },
+  titleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 16,
+    marginBottom: 16,
+  },
   title: {
     fontSize: 16,
     fontWeight: "700",
     color: "#46697C",
-    marginTop: 16,
-    marginBottom: 16,
+    marginLeft: 6,
   },
   input: {
     width: "80%",
@@ -114,9 +127,14 @@ const styles = StyleSheet.create({
   buttonError: {
     backgroundColor: "#c0392b",
   },
+  errorRow: {
+    marginTop: 12,
+    flexDirection: "row",
+    alignItems: "center",
+  },
   errorText: {
     color: "#c0392b",
     fontSize: 14,
-    marginTop: 12,
+    marginLeft: 6,
   },
 });
