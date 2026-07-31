@@ -2,15 +2,15 @@ import { useVideoPlayer, VideoView } from "expo-video";
 import * as VideoThumbnails from "expo-video-thumbnails";
 import { useEffect, useRef, useState } from "react";
 import {
-    Image,
-    NativeScrollEvent,
-    NativeSyntheticEvent,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    useWindowDimensions,
-    View,
+  Image,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
 } from "react-native";
 import { ThemeType } from "../hooks/use-theme";
 import { parseMediaString } from "../utils/dataHelper";
@@ -100,7 +100,8 @@ function VideoItem({ source, style }: { source: string; style: any }) {
             paddingHorizontal: 16,
           }}
         >
-// This video is hosted on an external platform. Tap the button below to open it in your browser.
+          // This video is hosted on an external platform. Tap the button below
+          to open it in your browser.
         </Text>
         <TouchableOpacity
           onPress={() => {
@@ -158,17 +159,18 @@ export default function ContentPanel({
     .filter(Boolean)
     .map((source) => ({ type: "video" as const, source }));
 
-  // Automatically default or fallback mode if current mode has no slides
+  // Default mode priority per story: Sign Roots -> Storyboard -> Exegesis
   useEffect(() => {
-    if (mode === "storyboard" && storyboardSlides.length === 0) {
-      if (signRootsSlides.length > 0) setMode("signRoots");
-      else if (exegesisSlides.length > 0) setMode("exegesis");
-    } else if (mode === "signRoots" && signRootsSlides.length === 0) {
-      if (storyboardSlides.length > 0) setMode("storyboard");
-      else if (exegesisSlides.length > 0) setMode("exegesis");
-    } else if (mode === "exegesis" && exegesisSlides.length === 0) {
-      if (storyboardSlides.length > 0) setMode("storyboard");
-      else if (signRootsSlides.length > 0) setMode("signRoots");
+    if (signRootsSlides.length > 0) {
+      setMode("signRoots");
+      return;
+    }
+    if (storyboardSlides.length > 0) {
+      setMode("storyboard");
+      return;
+    }
+    if (exegesisSlides.length > 0) {
+      setMode("exegesis");
     }
   }, [story]);
 
@@ -358,8 +360,20 @@ export default function ContentPanel({
 
   const VideoThumb = ({ source }: { source: string }) => {
     const [uri, setUri] = useState<string | null>(null);
+    const [frameSeeked, setFrameSeeked] = useState(false);
 
     useEffect(() => {
+      setUri(null);
+      setFrameSeeked(false);
+    }, [source]);
+
+    useEffect(() => {
+      let cancelled = false;
+
+      const setThumb = (next: string | null) => {
+        if (!cancelled && next) setUri(next);
+      };
+
       // Vimeo: use oEmbed API (supports private videos with hash)
       const vimeoMatch = source.match(/vimeo\.com\/(\d+)(\/([a-f0-9]+))?/);
       if (vimeoMatch) {
@@ -370,15 +384,80 @@ export default function ContentPanel({
           : `https://vimeo.com/api/oembed.json?url=https://vimeo.com/${id}&width=200`;
         fetch(oembedUrl)
           .then((r) => r.json())
-          .then((data) => { if (data.thumbnail_url) setUri(data.thumbnail_url); })
+          .then((data) => {
+            if (data.thumbnail_url) setThumb(data.thumbnail_url);
+          })
           .catch(() => {});
-        return;
+        return () => {
+          cancelled = true;
+        };
+      }
+
+      // Web fallback: capture a frame from remote videos when possible.
+      if (typeof document !== "undefined") {
+        const video = document.createElement("video");
+        video.crossOrigin = "anonymous";
+        video.preload = "metadata";
+        video.muted = true;
+        video.playsInline = true;
+
+        const cleanup = () => {
+          video.removeEventListener("loadeddata", onLoadedData);
+          video.removeEventListener("seeked", onSeeked);
+          video.removeEventListener("error", onError);
+          video.src = "";
+        };
+
+        const capture = () => {
+          try {
+            const canvas = document.createElement("canvas");
+            canvas.width = THUMB_W * 2;
+            canvas.height = THUMB_H * 2;
+            const ctx = canvas.getContext("2d");
+            if (!ctx) return;
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            setThumb(canvas.toDataURL("image/jpeg", 0.82));
+          } catch {
+            // Cross-origin restrictions can block canvas capture for some hosts.
+          }
+          cleanup();
+        };
+
+        const onLoadedData = () => {
+          try {
+            const t =
+              Number.isFinite(video.duration) && video.duration > 0
+                ? Math.min(8, Math.max(2, video.duration * 0.25))
+                : 0;
+            video.currentTime = t;
+          } catch {
+            capture();
+          }
+        };
+
+        const onSeeked = () => capture();
+        const onError = () => cleanup();
+
+        video.addEventListener("loadeddata", onLoadedData);
+        video.addEventListener("seeked", onSeeked);
+        video.addEventListener("error", onError);
+        video.src = source;
+        video.load();
+
+        return () => {
+          cancelled = true;
+          cleanup();
+        };
       }
 
       // Native only — no-op on web
       VideoThumbnails.getThumbnailAsync(source, { time: 0 })
-        .then((r) => setUri(r.uri))
+        .then((r) => setThumb(r.uri))
         .catch(() => {});
+
+      return () => {
+        cancelled = true;
+      };
     }, [source]);
 
     return (
@@ -388,6 +467,32 @@ export default function ContentPanel({
             source={{ uri }}
             style={StyleSheet.absoluteFill}
             resizeMode="cover"
+          />
+        ) : typeof document !== "undefined" ? (
+          // Web fallback: show a static frame without running playback.
+          // @ts-ignore - video tag is supported in React Native Web.
+          <video
+            src={source}
+            muted
+            playsInline
+            preload="metadata"
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            onLoadedData={(e: any) => {
+              if (frameSeeked) return;
+              const video = e?.currentTarget as HTMLVideoElement | undefined;
+              if (!video) return;
+              try {
+                const t =
+                  Number.isFinite(video.duration) && video.duration > 0
+                    ? Math.min(8, Math.max(2, video.duration * 0.25))
+                    : 0;
+                video.currentTime = t;
+                video.pause();
+                setFrameSeeked(true);
+              } catch {
+                // Ignore seek failures; browser will keep first frame if available.
+              }
+            }}
           />
         ) : null}
         <View style={styles.thumbnailPlayOverlay}>
@@ -517,7 +622,7 @@ export default function ContentPanel({
               contentContainerStyle={styles.mobileThumbContent}
             >
               {slides.map((item, i) => (
-                <ThumbItem key={i} item={item} i={i} />
+                <ThumbItem key={`${item.source}-${i}`} item={item} i={i} />
               ))}
             </ScrollView>
           </View>
@@ -588,13 +693,13 @@ export default function ContentPanel({
 
       <View style={styles.body}>
         <View style={[styles.mainViewer, { backgroundColor: "#333333" }]}>
-          {currentItem?.type === "video" && (
+          {currentItem?.type === "video" ? (
             <VideoItem
               key={currentItem.source}
               source={currentItem.source}
               style={styles.mainMedia}
             />
-          )}
+          ) : null}
           {total === 0 && (
             <Text style={{ color: "#fff" }}>
               No media available for this view.
@@ -614,7 +719,7 @@ export default function ContentPanel({
             showsVerticalScrollIndicator={false}
           >
             {slides.map((item, i) => (
-              <ThumbItem key={i} item={item} i={i} />
+              <ThumbItem key={`${item.source}-${i}`} item={item} i={i} />
             ))}
           </ScrollView>
         )}
@@ -736,7 +841,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   thumbnailPlayOverlay: {
-    position: "absolute", top: 0, left: 0, right: 0, bottom: 0,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     justifyContent: "center",
     alignItems: "center",
   },

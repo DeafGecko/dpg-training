@@ -174,7 +174,7 @@ export default function Training() {
             <Animated.View
               style={[
                 styles.drawerSheet,
-                { transform: [{ translateX: slideAnim }] },
+                { height, transform: [{ translateX: slideAnim }] },
               ]}
             >
               {sidebar}
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
   },
   drawerSheet: {
     width: DRAWER_WIDTH,
-    alignSelf: "stretch",
+    overflow: "hidden",
     zIndex: 10,
   },
 });

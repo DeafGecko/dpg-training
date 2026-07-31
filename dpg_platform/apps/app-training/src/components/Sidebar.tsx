@@ -119,6 +119,10 @@ export default function Sidebar({
         style={styles.topicScroll}
         contentContainerStyle={styles.topicScrollContent}
         showsVerticalScrollIndicator
+        nestedScrollEnabled
+        directionalLockEnabled
+        keyboardShouldPersistTaps="handled"
+        alwaysBounceVertical={false}
       >
         {topics.map(({ id, line1, line2, Icon }) => {
           const isActive = activeTopic === id;
@@ -238,8 +242,10 @@ export default function Sidebar({
 const styles = StyleSheet.create({
   sidebar: {
     width: 250,
+    height: "100%",
     flexShrink: 0,
-    alignSelf: "stretch",
+    minHeight: 0,
+    overflow: "hidden",
     borderRightWidth: 2,
     borderRightColor: "#4a6b7c",
     backgroundColor: "#fff",
